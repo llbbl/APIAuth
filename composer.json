@@ -2,7 +2,7 @@
   "name": "eig/apiauth",
   "description": "An extended JWT authentication system for JSON API's in PHP",
   "license": "MIT",
-  "keywords": ["api", "json, jwt, authentication"],
+  "keywords": ["api", "json", "jwt", "authentication"],
   "type": "library",
   "homepage": "https://github.com/excellentingenuity/APIAuth",
   "authors": [
