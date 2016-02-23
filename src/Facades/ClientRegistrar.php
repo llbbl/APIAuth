@@ -39,9 +39,9 @@ class ClientRegistrar
 
 
 
-        public static function register($fingerprint, $type, $persistence){
-            self::initialize($persistence);
-            return self::$clientRegistrar->register($fingerprint, $type);
-        }
+    public static function register($fingerprint, $type, $persistence){
+        self::initialize($persistence);
+        return self::$clientRegistrar->register($fingerprint, $type);
+    }
 
 }

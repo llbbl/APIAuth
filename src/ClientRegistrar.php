@@ -6,19 +6,44 @@ use eig\APIAuth\Contracts\ClientPersistenceInterface;
 use eig\APIAuth\Contracts\TokenGeneratorInterface;
 use eig\APIAuth\Exceptions\ClientException;
 
+/**
+ * Class ClientRegistrar
+ * @package eig\APIAuth
+ */
 class ClientRegistrar
 {
+
+    /**
+     * @var \eig\APIAuth\Contracts\ClientPersistenceInterface
+     */
     protected $persistence;
 
+    /**
+     * @var \eig\APIAuth\Contracts\TokenGeneratorInterface
+     */
     protected $tokenGenerator;
 
+    /**
+     * ClientRegistrar constructor.
+     *
+     * @param \eig\APIAuth\Contracts\ClientPersistenceInterface $persistence
+     * @param \eig\APIAuth\Contracts\TokenGeneratorInterface    $tokenGenerator
+     */
     public function __construct (ClientPersistenceInterface $persistence, TokenGeneratorInterface $tokenGenerator)
     {
         $this->persistence = $persistence;
         $this->tokenGenerator = $tokenGenerator;
-        // setup the encryption system
     }
 
+    /**
+     * register
+     *
+     * @param $fingerprint
+     * @param $type
+     *
+     * @return Object
+     * @throws \eig\APIAuth\Exceptions\ClientException
+     */
     public function register($fingerprint, $type){
         try
         {
@@ -41,6 +66,14 @@ class ClientRegistrar
         return $this->persistence->token();
     }
 
+    /**
+     * validateClientFingerprint
+     *
+     * @param $fingerprint
+     *
+     * @return bool
+     * @throws \eig\APIAuth\Exceptions\ClientException
+     */
     protected function validateClientFingerprint($fingerprint) {
         if ( !empty($fingerprint) && strlen($fingerprint) >= 10 )
         {
@@ -55,6 +88,13 @@ class ClientRegistrar
         }
     }
 
+    /**
+     * validateClientType
+     *
+     * @param $type
+     *
+     * @return bool
+     */
     protected function validateClientType($type) {
         if ( !empty($type) && strlen($type) >= 3)
         {
@@ -63,6 +103,14 @@ class ClientRegistrar
         return false;
     }
 
+    /**
+     * generateToken
+     *
+     * @param $fingerprint
+     * @param $type
+     *
+     * @return string
+     */
     protected function generateToken($fingerprint, $type) {
         return $this->tokenGenerator->generate($fingerprint . $type);
     }
