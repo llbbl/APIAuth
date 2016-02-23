@@ -76,4 +76,58 @@ class SessionRegistrarTest extends TestAbstract
     public function testRegister() {
         $this->assertEquals($this->sessionToken, $this->sessionRegistrar->register($this->clientToken, $this->fingerprint));
     }
+
+    /**
+     * testFingerprintNull
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testFingerprintNull() {
+        $this->sessionRegistrar->register($this->clientToken, null);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testFingerprintEmpty
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testFingerprintEmpty() {
+        $this->sessionRegistrar->register($this->clientToken, '');
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testFingerprintShort
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testFingerprintShort() {
+        $this->sessionRegistrar->register($this->clientToken, 'ABCDEF');
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testClientTokenNull
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testClientTokenNull() {
+        $this->sessionRegistrar->register(null, $this->fingerprint);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testClientTokenEmpty
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testClientTokenEmpty() {
+        $this->sessionRegistrar->register('', $this->fingerprint);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testClientTokenShort
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testClientTokenShort() {
+        $this->sessionRegistrar->register('ABCDEF', $this->fingerprint);
+        $this->setExpectedExceptionFromAnnotation();
+    }
 }
