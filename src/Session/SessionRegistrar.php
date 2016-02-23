@@ -1,6 +1,6 @@
 <?php
 
-namespace eig\APIAuth;
+namespace eig\APIAuth\Session;
 
 use eig\APIAuth\Contracts\SessionPersistenceInterface;
 use eig\APIAuth\Contracts\TokenGeneratorInterface;

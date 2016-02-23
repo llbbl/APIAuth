@@ -1,6 +1,6 @@
 <?php
 
-namespace eig\APIAuth;
+namespace eig\APIAuth\Client;
 
 use eig\APIAuth\Contracts\ClientPersistenceInterface;
 use eig\APIAuth\Contracts\TokenGeneratorInterface;

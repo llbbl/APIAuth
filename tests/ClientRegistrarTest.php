@@ -2,7 +2,7 @@
 
 namespace eig\APIAuth\Tests;
 
-use eig\APIAuth\ClientRegistrar;
+use eig\APIAuth\Client\ClientRegistrar;
 use eig\APIAuth\Exceptions\ClientException;
 use Mockery;
 
@@ -65,7 +65,7 @@ class ClientRegistrarTest extends TestAbstract
      * testConstructor
      */
     public function testConstructor() {
-        $this->assertInstanceOf('eig\APIAuth\ClientRegistrar', $this->clientRegistrar);
+        $this->assertInstanceOf('eig\APIAuth\Client\ClientRegistrar', $this->clientRegistrar);
     }
 
     /**

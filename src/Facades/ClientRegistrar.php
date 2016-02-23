@@ -4,15 +4,24 @@ namespace eig\APIAuth\Facades;
 
 use eig\APIAuth\Contracts\ClientPersistenceInterface;
 use eig\APIAuth\Exceptions\ClientException;
+use eig\APIAuth\Exceptions\SessionException;
+use eig\APIAuth\Session\SessionRegistrar;
+use eig\APIAuth\Contracts\SessionPersistenceInterface;
 use eig\Configurator\Configurator;
-use eig\APIAuth\ClientRegistrar as ClientRegistrarObject;
+use eig\APIAuth\Client\ClientRegistrar as ClientRegistrarObject;
 
 
 class ClientRegistrar
 {
     protected static $clientRegistrar;
 
-    protected static $persistence;
+    protected static $sessionRegistrar;
+
+    protected static $tokenGenerator;
+
+    protected static $clientPersistence;
+
+    protected static $sessionPersistence;
 
     protected static $config;
 
@@ -26,22 +35,41 @@ class ClientRegistrar
         ],
     ];
 
-    public static function initialize($persistence){
+    public static function initialize($clientPersistence, $sessionPersistence){
         self::$config = new Configurator(self::$configFile);
-        if ($persistence != null && $persistence instanceof ClientPersistenceInterface)
-        {
-            self::$persistence = $persistence;
-        } else {
-            self::$persistence = self::$config['APIAuth']['Client Persistence']();
-        }
-        self::$clientRegistrar = new ClientRegistrarObject($persistence);
+        self::initializeTokenGenerator();
+        self::initializeClient($clientPersistence);
+        self::initializeSession($sessionPersistence);
     }
 
 
 
     public static function register($fingerprint, $type, $persistence){
-        self::initialize($persistence);
+        //self::initialize($persistence);
+        // do check here if already initialized
+
         return self::$clientRegistrar->register($fingerprint, $type);
+        //next do session registration
+        //then call a token builder
+        // set claims on token of client and session
+        // return token
     }
 
+    protected static function initializeTokenGenerator(){
+        self::$tokenGenerator = new self::$config['APIAuth']['Token Generator'];
+    }
+
+    protected static function initializeClient($persistence) {
+        if ($persistence != null && $persistence instanceof ClientPersistenceInterface)
+        {
+            self::$clientPersistence = $persistence;
+        } else {
+            self::$clientPersistence = new self::$config['APIAuth']['Client Persistence']();
+        }
+        self::$clientRegistrar = new ClientRegistrarObject(self::$clientPersistence, self::$tokenGenerator);
+    }
+
+    protected static function initializeSession() {
+
+    }
 }

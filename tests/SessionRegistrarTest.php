@@ -2,7 +2,7 @@
 
 namespace eig\APIAuth\Tests;
 
-use eig\APIAuth\SessionRegistrar;
+use eig\APIAuth\Session\SessionRegistrar;
 use eig\APIAuth\Exceptions\SessionException;
 use Mockery;
 
@@ -70,7 +70,7 @@ class SessionRegistrarTest extends TestAbstract
      * testConstructor
      */
     public function testConstructor() {
-        $this->assertInstanceOf('eig\APIAuth\SessionRegistrar', $this->sessionRegistrar);
+        $this->assertInstanceOf('eig\APIAuth\Session\SessionRegistrar', $this->sessionRegistrar);
     }
 
     public function testRegister() {
