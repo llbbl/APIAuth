@@ -97,7 +97,7 @@ class SessionRegistrar
      */
     protected function validateClientToken($clientToken) {
         if (!empty($clientToken) && $this->clientTokenIsHash($clientToken) == true) {
-            if ($this->persistence->exists(['client' => $clientToken]))
+            if ($this->persistence->exists(['client' => $clientToken]) == true)
             {
                 throw new SessionException('Client Session already exists', 1);
             } else

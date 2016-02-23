@@ -46,7 +46,7 @@ class SessionRegistrarTest extends TestAbstract
         $this->clientToken = sha1('This is the Client Token');
         $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\SessionPersistenceInterface');
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenGeneratorInterface');
-        $this->persistence->shouldReceive('exists')->andReturn(false);
+
         $this->persistence->shouldReceive('client')->andReturn(true);
         $this->persistence->shouldReceive('setRevoked');
         $this->persistence->shouldReceive('token')->andReturn($this->sessionToken);
@@ -74,6 +74,7 @@ class SessionRegistrarTest extends TestAbstract
     }
 
     public function testRegister() {
+        $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->assertEquals($this->sessionToken, $this->sessionRegistrar->register($this->clientToken, $this->fingerprint));
     }
 
@@ -128,6 +129,16 @@ class SessionRegistrarTest extends TestAbstract
      */
     public function testClientTokenShort() {
         $this->sessionRegistrar->register('ABCDEF', $this->fingerprint);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testClientTokenExists
+     * @expectedException eig\APIAuth\Exceptions\SessionException
+     */
+    public function testClientTokenExists() {
+        $this->persistence->shouldReceive('exists')->andReturn(true);
+        $this->sessionRegistrar->register($this->clientToken, $this->fingerprint);
         $this->setExpectedExceptionFromAnnotation();
     }
 }

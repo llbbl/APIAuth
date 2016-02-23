@@ -41,7 +41,6 @@ class ClientRegistrarTest extends TestAbstract
     {
         $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\ClientPersistenceInterface');
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenGeneratorInterface');
-        $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->persistence->shouldReceive('fingerprint')->andReturn(true);
         $this->persistence->shouldReceive('type');
         $this->persistence->shouldReceive('token')->andReturn(sha1('this is the token'));
@@ -73,6 +72,7 @@ class ClientRegistrarTest extends TestAbstract
      * testRegister
      */
     public function testRegister() {
+        $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->assertEquals(sha1('this is the token'), $this->clientRegistrar->register($this->fingerprint, $this->type));
     }
 
@@ -105,10 +105,21 @@ class ClientRegistrarTest extends TestAbstract
     }
 
     /**
+     * testFingerprintExists
+     * @expectedException eig\APIAuth\Exceptions\ClientException
+     */
+    public function testFingerprintExistsShort() {
+        $this->persistence->shouldReceive('exists')->andReturn(true);
+        $this->clientRegistrar->register($this->fingerprint, $this->type);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
      * testTypeNull
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
     public function testTypeNull() {
+        $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->clientRegistrar->register($this->fingerprint, null);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -118,6 +129,7 @@ class ClientRegistrarTest extends TestAbstract
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
     public function testTypeEmpty() {
+        $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->clientRegistrar->register($this->fingerprint, '');
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -127,6 +139,7 @@ class ClientRegistrarTest extends TestAbstract
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
     public function testTypeShort() {
+        $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->clientRegistrar->register($this->fingerprint, 'AB');
         $this->setExpectedExceptionFromAnnotation();
     }
