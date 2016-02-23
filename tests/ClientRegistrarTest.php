@@ -85,6 +85,50 @@ class ClientRegistrarTest extends TestAbstract
         $this->clientRegistrar->register(null, $this->type);
         $this->setExpectedExceptionFromAnnotation();
     }
-    // TODO: add further tests to ensure functionality of the clientregistrar class
+
+    /**
+     * testFingerprintEmpty
+     * @expectedException eig\APIAuth\Exceptions\ClientException
+     */
+    public function testFingerprintEmpty() {
+        $this->clientRegistrar->register('', $this->type);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testFingerprintShort
+     * @expectedException eig\APIAuth\Exceptions\ClientException
+     */
+    public function testFingerprintShort() {
+        $this->clientRegistrar->register('ABCDEF', $this->type);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testTypeNull
+     * @expectedException eig\APIAuth\Exceptions\ClientException
+     */
+    public function testTypeNull() {
+        $this->clientRegistrar->register($this->fingerprint, null);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testTypeEmpty
+     * @expectedException eig\APIAuth\Exceptions\ClientException
+     */
+    public function testTypeEmpty() {
+        $this->clientRegistrar->register($this->fingerprint, '');
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    /**
+     * testTypeShort
+     * @expectedException eig\APIAuth\Exceptions\ClientException
+     */
+    public function testTypeShort() {
+        $this->clientRegistrar->register($this->fingerprint, 'AB');
+        $this->setExpectedExceptionFromAnnotation();
+    }
 
 }

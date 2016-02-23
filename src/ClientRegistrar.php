@@ -5,7 +5,6 @@ namespace eig\APIAuth;
 use eig\APIAuth\Contracts\ClientPersistenceInterface;
 use eig\APIAuth\Contracts\TokenGeneratorInterface;
 use eig\APIAuth\Exceptions\ClientException;
-use eig\Configurator\Configurator;
 
 class ClientRegistrar
 {
@@ -30,7 +29,7 @@ class ClientRegistrar
             // log exception
             throw $e;
         }
-        if( $this->validateClientType($type))
+        if( $this->validateClientType($type) )
         {
             $this->persistence->type($type);
         } else {
@@ -43,7 +42,7 @@ class ClientRegistrar
     }
 
     protected function validateClientFingerprint($fingerprint) {
-        if ($fingerprint != '' && $fingerprint != null )
+        if ( !empty($fingerprint) && strlen($fingerprint) >= 10 )
         {
             if ($this->persistence->exists(['fingerprint' => $fingerprint]))
             {
@@ -52,12 +51,12 @@ class ClientRegistrar
                 return true;
             }
         } else {
-            throw new ClientException('Client Fingerprint submitted cannot be null or empty', 1);
+            throw new ClientException('Client Fingerprint submitted cannot be null or empty, and length must be >= 10 char', 1);
         }
     }
 
     protected function validateClientType($type) {
-        if ($type != '' && $type != null)
+        if ( !empty($type) && strlen($type) >= 3)
         {
             return true;
         }
