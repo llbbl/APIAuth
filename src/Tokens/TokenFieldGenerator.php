@@ -22,7 +22,7 @@ class TokenFieldGenerator implements TokenFieldGeneratorInterface
      * generate
      *
      * @param string $seed
-     * @param int    $randomLevel
+     * @param int    $cost
      *
      * @return bool|string
      */
