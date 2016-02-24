@@ -55,15 +55,19 @@ class ClientRegistrar
 
 
     public static function register($fingerprint, $type){
-      if (
+        $data = [];
+        if (
            is_a(self::$clientRegistrar, 'eig\APIAuth\Client\ClientRegistrar') == false
            ||
            is_a(self::$sessionRegistrar, 'eig\APIAuth\Session\SessionRegistrar') == false
-      )
-      {
-          self::initialize();
-      }
-        return self::$clientRegistrar->register($fingerprint, $type);
+          )
+          {
+              self::initialize();
+          }
+        $data['ClientToken'] = self::$clientRegistrar->register($fingerprint, $type);
+        $data['SessionToken'] = self::$sessionRegistrar->register($data['ClientToken'], $fingerprint);
+        return TokenFactory::build(self::$config, $data);
+
         //next do session registration
         //then call a token builder
         // set claims on token of client and session

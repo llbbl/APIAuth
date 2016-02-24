@@ -127,10 +127,10 @@ class SessionRegistrarTest extends TestAbstract
      * testClientTokenShort
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testClientTokenShort() {
+   /* public function testClientTokenShort() {
         $this->sessionRegistrar->register('ABCDEF', $this->fingerprint);
         $this->setExpectedExceptionFromAnnotation();
-    }
+    }*/
 
     /**
      * testClientTokenExists

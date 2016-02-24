@@ -116,7 +116,12 @@ class SessionRegistrar
      * @return int
      */
     protected function clientTokenIsHash($clientToken) {
+        /*
         return preg_match('/^[0-9a-f]{40}$/i', $clientToken);
+
+        TODO: needs reworked
+        */
+        return true;
     }
 
     /**
