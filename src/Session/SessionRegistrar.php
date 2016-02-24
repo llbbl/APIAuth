@@ -3,7 +3,7 @@
 namespace eig\APIAuth\Session;
 
 use eig\APIAuth\Contracts\SessionPersistenceInterface;
-use eig\APIAuth\Contracts\TokenGeneratorInterface;
+use eig\APIAuth\Contracts\TokenFieldGeneratorInterface;
 use eig\APIAuth\Exceptions\SessionException;
 
 /**
@@ -20,7 +20,7 @@ class SessionRegistrar
     protected $persistence;
 
     /**
-     * @var \eig\APIAuth\Contracts\TokenGeneratorInterface
+     * @var \eig\APIAuth\Contracts\TokenFieldGeneratorInterface
      */
     protected $tokenGenerator;
 
@@ -29,9 +29,9 @@ class SessionRegistrar
      * SessionRegistrar constructor.
      *
      * @param \eig\APIAuth\Contracts\SessionPersistenceInterface $persistence
-     * @param \eig\APIAuth\Contracts\TokenGeneratorInterface     $tokenGenerator
+     * @param \eig\APIAuth\Contracts\TokenFieldGeneratorInterface     $tokenGenerator
      */
-    public function __construct (SessionPersistenceInterface $persistence, TokenGeneratorInterface $tokenGenerator)
+    public function __construct (SessionPersistenceInterface $persistence, TokenFieldGeneratorInterface $tokenGenerator)
     {
         $this->persistence = $persistence;
         $this->tokenGenerator = $tokenGenerator;

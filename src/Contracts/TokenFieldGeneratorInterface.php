@@ -3,20 +3,20 @@
 namespace eig\APIAuth\Contracts;
 
 /**
- * Interface TokenGeneratorInterface
+ * Interface TokenFieldGeneratorInterface
  * @package eig\APIAuth\Contracts
  */
-interface TokenGeneratorInterface
+interface TokenFieldGeneratorInterface
 {
 
     /**
      * generate
      *
      * @param string    $seed
-     * @param int       $randomLevel
+     * @param int       $cost
      *
      * @return string
      */
-    public function generate($seed, $randomLevel = 256);
+    public function generate($seed, $cost = 10);
 
 }

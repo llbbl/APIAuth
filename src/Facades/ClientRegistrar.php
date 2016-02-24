@@ -35,18 +35,20 @@ class ClientRegistrar
         ],
     ];
 
-    public static function initialize($clientPersistence, $sessionPersistence){
+    public static function initialize(){
         self::$config = new Configurator(self::$configFile);
         self::initializeTokenGenerator();
-        self::initializeClient($clientPersistence);
-        self::initializeSession($sessionPersistence);
+        self::initializeClient();
+        self::initializeSession();
     }
 
 
 
-    public static function register($fingerprint, $type, $persistence){
-        //self::initialize($persistence);
-        // do check here if already initialized
+    public static function register($fingerprint, $type){
+        if (self::$clientRegistrar = null || self::$sessionRegistrar = null) {
+            self::initialize();
+        }
+        self::initializeTokenGenerator();
 
         return self::$clientRegistrar->register($fingerprint, $type);
         //next do session registration
@@ -56,10 +58,10 @@ class ClientRegistrar
     }
 
     protected static function initializeTokenGenerator(){
-        self::$tokenGenerator = new self::$config['APIAuth']['Token Generator'];
+        self::$tokenGenerator = new self::$config['APIAuth']['Token Generator']();
     }
 
-    protected static function initializeClient($persistence) {
+    protected static function initializeClient($persistence = null) {
         if ($persistence != null && $persistence instanceof ClientPersistenceInterface)
         {
             self::$clientPersistence = $persistence;
@@ -69,7 +71,7 @@ class ClientRegistrar
         self::$clientRegistrar = new ClientRegistrarObject(self::$clientPersistence, self::$tokenGenerator);
     }
 
-    protected static function initializeSession() {
+    protected static function initializeSession($peristence = null) {
 
     }
 }

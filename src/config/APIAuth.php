@@ -17,4 +17,13 @@ return [
      * that is used by the APIAuth Session objects to store and retrieve Session records.
      */
     'Session Persistence' => 'EloquentSessionPersistence',
+
+    /**
+     * The Field Token Generator
+     * This is the class name (including namespace) for the class that
+     * conforms to teh TokenFieldGeneratorInterface that creates the hash tokens
+     * for the various used token fields such as Client, Session, User
+     */
+     'Token Field Generator' => 'eig\APIAuth\Tokens\TokenFieldGenerator'
+
 ];

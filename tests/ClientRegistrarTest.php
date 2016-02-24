@@ -40,7 +40,7 @@ class ClientRegistrarTest extends TestAbstract
     public function setUp ()
     {
         $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\ClientPersistenceInterface');
-        $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenGeneratorInterface');
+        $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenFieldGeneratorInterface');
         $this->persistence->shouldReceive('fingerprint')->andReturn(true);
         $this->persistence->shouldReceive('type');
         $this->persistence->shouldReceive('token')->andReturn(sha1('this is the token'));

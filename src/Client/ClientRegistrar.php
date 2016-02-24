@@ -3,7 +3,7 @@
 namespace eig\APIAuth\Client;
 
 use eig\APIAuth\Contracts\ClientPersistenceInterface;
-use eig\APIAuth\Contracts\TokenGeneratorInterface;
+use eig\APIAuth\Contracts\TokenFieldGeneratorInterface;
 use eig\APIAuth\Exceptions\ClientException;
 
 /**
@@ -19,7 +19,7 @@ class ClientRegistrar
     protected $persistence;
 
     /**
-     * @var \eig\APIAuth\Contracts\TokenGeneratorInterface
+     * @var \eig\APIAuth\Contracts\TokenFieldGeneratorInterface
      */
     protected $tokenGenerator;
 
@@ -27,9 +27,9 @@ class ClientRegistrar
      * ClientRegistrar constructor.
      *
      * @param \eig\APIAuth\Contracts\ClientPersistenceInterface $persistence
-     * @param \eig\APIAuth\Contracts\TokenGeneratorInterface    $tokenGenerator
+     * @param \eig\APIAuth\Contracts\TokenFieldGeneratorInterface    $tokenGenerator
      */
-    public function __construct (ClientPersistenceInterface $persistence, TokenGeneratorInterface $tokenGenerator)
+    public function __construct (ClientPersistenceInterface $persistence, TokenFieldGeneratorInterface $tokenGenerator)
     {
         $this->persistence = $persistence;
         $this->tokenGenerator = $tokenGenerator;
