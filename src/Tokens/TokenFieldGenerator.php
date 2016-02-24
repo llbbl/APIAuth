@@ -2,7 +2,7 @@
 
 namespace eig\APIAuth\Tokens;
 
-
+use PasswordLib\PasswordLib;
 use eig\APIAuth\Contracts\TokenFieldGeneratorInterface;
 
 /**
@@ -11,6 +11,12 @@ use eig\APIAuth\Contracts\TokenFieldGeneratorInterface;
  */
 class TokenFieldGenerator implements TokenFieldGeneratorInterface
 {
+    protected $library;
+
+    public function __construct ()
+    {
+        $this->library = new PasswordLib();
+    }
 
     /**
      * generate
@@ -20,9 +26,9 @@ class TokenFieldGenerator implements TokenFieldGeneratorInterface
      *
      * @return bool|string
      */
-    public function generate ($seed, $randomLevel = 10)
+    public function generate ($seed, $cost = 10)
     {
-       return password_hash($seed, PASSWORD_DEFAULT);
+       return $this->library->createPasswordHash($seed, '$2a$', array('cost' => $cost));
     }
 
 
