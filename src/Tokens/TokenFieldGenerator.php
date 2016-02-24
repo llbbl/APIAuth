@@ -11,8 +11,15 @@ use eig\APIAuth\Contracts\TokenFieldGeneratorInterface;
  */
 class TokenFieldGenerator implements TokenFieldGeneratorInterface
 {
+
+    /**
+     * @var \PasswordLib\PasswordLib
+     */
     protected $library;
 
+    /**
+     * TokenFieldGenerator constructor.
+     */
     public function __construct ()
     {
         $this->library = new PasswordLib();

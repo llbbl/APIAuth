@@ -2,7 +2,7 @@
 
 return [
 
-    /**
+    /*
      * The Client Persistence
      * This is the class name (including namespace) for the class that
      * conforms to the ClientPersistenceInterface or extends the AbstractClientPersistence
@@ -10,7 +10,7 @@ return [
      */
     'Client Persistence' => 'EloquentClientPersistence',
 
-    /**
+    /*
      * The Session Persistence
      * This is the class name (including namespace) for the class that
      * conforms to the SessionPersistenceInterface or extends the AbstractSessionPersistence
@@ -18,7 +18,7 @@ return [
      */
     'Session Persistence' => 'EloquentSessionPersistence',
 
-    /**
+    /*
      * The Field Token Generator
      * This is the class name (including namespace) for the class that
      * conforms to teh TokenFieldGeneratorInterface that creates the hash tokens

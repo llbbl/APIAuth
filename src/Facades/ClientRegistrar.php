@@ -2,6 +2,7 @@
 
 namespace eig\APIAuth\Facades;
 
+use eig\Configurator\Options as ConfigOptions;
 use eig\APIAuth\Contracts\ClientPersistenceInterface;
 use eig\APIAuth\Exceptions\ClientException;
 use eig\APIAuth\Exceptions\SessionException;
@@ -25,30 +26,43 @@ class ClientRegistrar
 
     protected static $config;
 
+    protected static $configOptions;
+
     protected static $configFile = [
         [
             'source' => 'APIAuth.php',
-            'path' => '/src/config/',
+            'path' => 'src/config/',
             'pathType' => 'relative',
             'type' => 'array',
             'alias' => 'APIAuth'
         ],
     ];
 
-    public static function initialize(){
-        self::$config = new Configurator(self::$configFile);
+    public static function initialize($clientPersistence = null, $sessionPersistence = null){
+        self::$configOptions = new ConfigOptions();
+        self::$configOptions->basePath = realpath('src/config');
+        try {
+            self::$config = new Configurator(self::$configFile, self::$configOptions);
+        } catch (\Exception $exception) {
+            throw new ClientException('unable to load APIAUth Options', 1, $exception);
+        }
+
         self::initializeTokenGenerator();
-        self::initializeClient();
-        self::initializeSession();
+        self::initializeClient($clientPersistence);
+        self::initializeSession($sessionPersistence);
     }
 
 
 
     public static function register($fingerprint, $type){
-        if (self::$clientRegistrar = null || self::$sessionRegistrar = null) {
-            self::initialize();
-        }
-
+      if (
+           is_a(self::$clientRegistrar, 'eig\APIAuth\Client\ClientRegistrar') == false
+           ||
+           is_a(self::$sessionRegistrar, 'eig\APIAuth\Session\SessionRegistrar') == false
+      )
+      {
+          self::initialize();
+      }
         return self::$clientRegistrar->register($fingerprint, $type);
         //next do session registration
         //then call a token builder
@@ -57,15 +71,15 @@ class ClientRegistrar
     }
 
     protected static function initializeTokenGenerator(){
-        self::$tokenGenerator = new self::$config['APIAuth']['Token Generator']();
+        self::$tokenGenerator = new self::$config['APIAuth']['Token Field Generator']();
     }
 
     protected static function initializeClient($persistence = null) {
-        if ($persistence != null && $persistence instanceof ClientPersistenceInterface)
+        if (!empty($persistence) && $persistence instanceof ClientPersistenceInterface)
         {
             self::$clientPersistence = $persistence;
         } else {
-            self::$clientPersistence = new self::$config['APIAuth']['Client Persistence']();
+             self::$clientPersistence = new self::$config['APIAuth']['Client Persistence']();
         }
         self::$clientRegistrar = new ClientRegistrarObject(self::$clientPersistence, self::$tokenGenerator);
     }
@@ -78,5 +92,9 @@ class ClientRegistrar
             self::$sessionPersistence = new self::$config['APIAuth']['Session Persistence']();
         }
         self::$sessionRegistrar = new SessionRegistrar(self::$sessionPersistence, self::$tokenGenerator);
+    }
+
+    public static function getResitrar() {
+        return self::$clientRegistrar;
     }
 }

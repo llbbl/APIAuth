@@ -111,8 +111,10 @@ class ClientRegistrar
      *
      * @return string
      */
-    protected function generateToken($fingerprint, $type) {
-        return $this->tokenGenerator->generate($fingerprint . $type);
+    protected function generateToken($fingerprint, $type)
+    {
+        $seed = $fingerprint . $type;
+        return $this->tokenGenerator->generate($seed);
     }
 
 }
