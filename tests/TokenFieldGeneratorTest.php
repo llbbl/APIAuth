@@ -5,6 +5,10 @@ namespace eig\APIAuth\Tests;
 
 use eig\APIAuth\Tokens\TokenFieldGenerator;
 
+/**
+ * Class TokenFieldGeneratorTest
+ * @package eig\APIAuth\Tests
+ */
 class TokenFieldGeneratorTest extends TestAbstract
 {
 
@@ -30,7 +34,7 @@ class TokenFieldGeneratorTest extends TestAbstract
     public function setUp ()
     {
         $this->tokenGenerator = new TokenFieldGenerator();
-        $this->seed = bin2hex(openssl_random_pseudo_bytes(24));
+        $this->seed = (string)bin2hex(openssl_random_pseudo_bytes(24));
         $this->cost = 10;
         parent::setUp();
     }

@@ -48,7 +48,6 @@ class ClientRegistrar
         if (self::$clientRegistrar = null || self::$sessionRegistrar = null) {
             self::initialize();
         }
-        self::initializeTokenGenerator();
 
         return self::$clientRegistrar->register($fingerprint, $type);
         //next do session registration
@@ -71,7 +70,13 @@ class ClientRegistrar
         self::$clientRegistrar = new ClientRegistrarObject(self::$clientPersistence, self::$tokenGenerator);
     }
 
-    protected static function initializeSession($peristence = null) {
-
+    protected static function initializeSession($persistence = null) {
+        if ($persistence != null && $persistence instanceof SessionPersistenceInterface)
+        {
+            self::$sessionPersistence = $persistence;
+        } else {
+            self::$sessionPersistence = new self::$config['APIAuth']['Session Persistence']();
+        }
+        self::$sessionRegistrar = new SessionRegistrar(self::$sessionPersistence, self::$tokenGenerator);
     }
 }
