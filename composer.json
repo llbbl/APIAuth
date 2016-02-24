@@ -20,7 +20,8 @@
   "require": {
     "php": ">=5.6",
     "eig/Configurator": "^1.1",
-    "lcobucci/jwt": "^3.1"
+    "lcobucci/jwt": "^3.1",
+    "PasswordLib/PasswordLib": "*@dev"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.2",
@@ -29,12 +30,12 @@
   },
   "autoload": {
     "psr-4": {
-      "eig\\APIAuth\\": "src"
+      "eig\\APIAuth\\": "./src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "eig\\APIAuth\\Test\\": "tests"
+      "eig\\APIAuth\\Tests\\": "./tests"
     }
   }
 }

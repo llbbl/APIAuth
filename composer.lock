@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "208e64aec865440e94b008bb9e519ec2",
-    "content-hash": "8501a1c0aec42a0b48255e5447db22a9",
+    "hash": "6df579683e5296f11d6510c154901a05",
+    "content-hash": "b297599508602df8f161e6c50e18cf6d",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -366,6 +366,55 @@
                 "storage"
             ],
             "time": "2016-02-19 15:35:38"
+        },
+        {
+            "name": "passwordlib/passwordlib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/PHP-PasswordLib.git",
+                "reference": "2a6b7294ebf7819cd6a12e964b2d549b3c06734a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/PHP-PasswordLib/zipball/2a6b7294ebf7819cd6a12e964b2d549b3c06734a",
+                "reference": "2a6b7294ebf7819cd6a12e964b2d549b3c06734a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PasswordLib": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@ircmaxell.com",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A Password Hashing Library",
+            "homepage": "https://github.com/ircmaxell/PHP-PasswordLib",
+            "keywords": [
+                "crypt",
+                "hash",
+                "hashing",
+                "password",
+                "random",
+                "salt"
+            ],
+            "time": "2015-02-04 19:30:29"
         }
     ],
     "packages-dev": [
@@ -2164,6 +2213,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "passwordlib/passwordlib": 20,
         "satooshi/php-coveralls": 20
     },
     "prefer-stable": false,
