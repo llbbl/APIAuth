@@ -23,7 +23,7 @@ interface SessionPersistenceInterface
      * @param array $params
      *
      */
-    public function save(array $params = null);
+    public function save(array $params);
 
     /**
      * get
@@ -36,18 +36,9 @@ interface SessionPersistenceInterface
 
     /**
      * all
-     * @return array || object
+     * @return array
      */
     public function all();
-
-    /**
-     * create
-     *
-     * @param array|null $params
-     *
-     * @return mixed
-     */
-    public function create(array $params = null);
 
     /**
      * isRevoked
@@ -62,34 +53,6 @@ interface SessionPersistenceInterface
      *
      */
     public function setRevoked($revoked);
-
-    /**
-     * isExpired
-     * @return boolean
-     */
-    public function isExpired();
-
-
-    /**
-     * setExpired
-     *
-     * @param $expired
-     */
-    public function setExpired($expired);
-
-    /**
-     * isValid
-     * @return boolean
-     */
-    public function isValid();
-
-
-    /**
-     * setValid
-     *
-     * @param $valid
-     */
-    public function setValid($valid);
 
     /**
      * token

@@ -354,11 +354,11 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
                 try {
                     $this->$key($value);
                 } catch (\Exception $e) {
-                    throw new ClientException('Parameter Key not found as a field', 1, $e);
+                    throw new ClientException('Paramanter Key not found as a field', 1, $e);
                 }
             }
         } else {
-            throw new ClientException('Supplied parameter must be an Array' , 1);
+            throw new ClientException('Supplied paramter must be an Array' , 1);
         }
     }
 

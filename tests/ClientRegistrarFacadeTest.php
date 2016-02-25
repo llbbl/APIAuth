@@ -53,7 +53,6 @@ class ClientRegistrarFacadeTest extends TestAbstract
         $this->clientPersistence->shouldReceive('save')->andReturn(true);
         $this->sessionPersistence->shouldReceive('client')->andReturn(true);
         $this->sessionPersistence->shouldReceive('setRevoked');
-        $this->sessionPersistence->shouldReceive('create');
         $this->sessionPersistence->shouldReceive('exists')->andReturn(false);
         $this->sessionPersistence->shouldReceive('token')->andReturn(
             $this->library->createPasswordHash($ctoken . $this->fingerprint, '$2a$', array('cost' => 10))
@@ -63,7 +62,10 @@ class ClientRegistrarFacadeTest extends TestAbstract
         ClientRegistrar::initialize($this->clientPersistence, $this->sessionPersistence);
         $data = ClientRegistrar::register($this->fingerprint, $this->type);
         $data = (new Parser())->parse((string) $data);
+        //$data->getHeaders();
+        //$data->getClaims();
         $registrarData = (array)json_decode($data->getClaim('data'));
+        //print_r($registrarData);
         $clientToken = $registrarData['ClientToken'];
         $sessionToken = $registrarData['SessionToken'];
         $this->assertTrue($this->library->verifyPasswordHash($this->fingerprint . $this->type, $clientToken));
