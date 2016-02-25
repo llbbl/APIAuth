@@ -57,7 +57,7 @@ class SessionRegistrar
         }
         if( $this->validateClientToken($clientToken) )
         {
-            $this->persistence = new $this->persistence();
+            $this->persistence->create();
             $this->persistence->client($clientToken);
         } else {
             throw new SessionException('Client Token cannot be null or empty and must be a hash', 1);
@@ -97,7 +97,7 @@ class SessionRegistrar
      */
     protected function validateClientToken($clientToken) {
         if (!empty($clientToken) && $this->clientTokenIsHash($clientToken) == true) {
-            if ($this->persistence->exists(['client' => $clientToken]) == true)
+            if ($this->persistence->exists(['clientToken' => $clientToken]) == true)
             {
                 throw new SessionException('Client Session already exists', 1);
             } else

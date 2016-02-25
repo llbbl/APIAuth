@@ -53,6 +53,7 @@ class ClientRegistrarFacadeTest extends TestAbstract
         $this->clientPersistence->shouldReceive('save')->andReturn(true);
         $this->sessionPersistence->shouldReceive('client')->andReturn(true);
         $this->sessionPersistence->shouldReceive('setRevoked');
+        $this->sessionPersistence->shouldReceive('create');
         $this->sessionPersistence->shouldReceive('exists')->andReturn(false);
         $this->sessionPersistence->shouldReceive('token')->andReturn(
             $this->library->createPasswordHash($ctoken . $this->fingerprint, '$2a$', array('cost' => 10))
