@@ -258,10 +258,10 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
     }
 
     /**
-     * getTimeoout
+     * getTimeout
      * @return integer
      */
-    protected function getTimeoout() {
+    protected function getTimeout() {
         return $this->timeout;
     }
 
