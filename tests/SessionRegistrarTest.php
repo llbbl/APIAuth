@@ -46,7 +46,7 @@ class SessionRegistrarTest extends TestAbstract
         $this->clientToken = sha1('This is the Client Token');
         $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\SessionPersistenceInterface');
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenFieldGeneratorInterface');
-
+        $this->persistence->shouldReceive('create');
         $this->persistence->shouldReceive('client')->andReturn(true);
         $this->persistence->shouldReceive('setRevoked');
         $this->persistence->shouldReceive('token')->andReturn($this->sessionToken);
