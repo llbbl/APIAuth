@@ -57,7 +57,7 @@ class SessionRegistrar
         }
         if( $this->validateClientToken($clientToken) )
         {
-            $this->persistence = new $this->persistence();
+            $this->persistence->create();
             $this->persistence->client($clientToken);
         } else {
             throw new SessionException('Client Token cannot be null or empty and must be a hash', 1);
