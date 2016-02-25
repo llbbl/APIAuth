@@ -49,6 +49,7 @@ class SessionRegistrarTest extends TestAbstract
 
         $this->persistence->shouldReceive('client')->andReturn(true);
         $this->persistence->shouldReceive('setRevoked');
+        $this->persistence->shouldReceive('create');
         $this->persistence->shouldReceive('token')->andReturn($this->sessionToken);
         $this->persistence->shouldReceive('save')->andReturn(true);
         $this->tokenGenerator->shouldReceive('generate')->andReturn($this->sessionToken);
