@@ -231,7 +231,7 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
     public function timeout ($timeout = null) {
         if(empty($timeout))
         {
-            return $this->getTimeoout();
+            return $this->getTimeout();
         } else {
             $this->setTimeout($timeout);
         }
