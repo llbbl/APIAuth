@@ -48,7 +48,7 @@ class ClientRegistrar
         try
         {
             $this->validateClientFingerprint($fingerprint);
-            $this->persistence->makeNewClientRecord();
+            $this->persistence->create();
             $this->persistence->fingerprint($fingerprint);
         } catch (ClientException $e){
             // log exception

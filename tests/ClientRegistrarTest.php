@@ -43,6 +43,7 @@ class ClientRegistrarTest extends TestAbstract
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenFieldGeneratorInterface');
         $this->persistence->shouldReceive('fingerprint')->andReturn(true);
         $this->persistence->shouldReceive('type');
+        $this->persistence->shouldReceive('create');
         $this->persistence->shouldReceive('token')->andReturn(sha1('this is the token'));
         $this->persistence->shouldReceive('save')->andReturn(true);
         $this->tokenGenerator->shouldReceive('generate')->andReturn(sha1('this is the token'));

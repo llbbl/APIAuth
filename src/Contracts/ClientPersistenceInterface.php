@@ -41,6 +41,42 @@ interface ClientPersistenceInterface
      */
     public function all();
 
+
+    /**
+     * create
+     *
+     * @param array|null $params
+     *
+     * @return mixed
+     */
+    public function create(array $params = null);
+
+    /**
+     * isExpired
+     * @return bool
+     */
+    public function isExpired();
+
+    /**
+     * setExpired
+     *
+     * @param $expired
+     */
+    public function setExpired($expired);
+
+    /**
+     * isValid
+     * @return bool
+     */
+    public function isValid();
+
+    /**
+     * setValid
+     *
+     * @param $valid
+     */
+    public function setValid($valid);
+
     /**
      * isRevoked
      * @return boolean
@@ -83,9 +119,6 @@ interface ClientPersistenceInterface
     public function token($token = null);
 
 
-    /**
-     * makeNewClientRecord
-     */
-    public function makeNewClientRecord();
+
 
 }

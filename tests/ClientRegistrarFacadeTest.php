@@ -48,6 +48,7 @@ class ClientRegistrarFacadeTest extends TestAbstract
         $this->clientPersistence->shouldReceive('fingerprint')->andReturn(true);
         $this->clientPersistence->shouldReceive('exists')->andReturn(false);
         $this->clientPersistence->shouldReceive('type');
+        $this->clientPersistence->shouldReceive('create');
         $this->clientPersistence->shouldReceive('token')->andReturn($ctoken);
         $this->clientPersistence->shouldReceive('save')->andReturn(true);
         $this->sessionPersistence->shouldReceive('client')->andReturn(true);
