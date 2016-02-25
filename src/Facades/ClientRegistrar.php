@@ -12,22 +12,51 @@ use eig\Configurator\Configurator;
 use eig\APIAuth\Client\ClientRegistrar as ClientRegistrarObject;
 
 
+/**
+ * Class ClientRegistrar
+ * @package eig\APIAuth\Facades
+ */
 class ClientRegistrar
 {
+
+    /**
+     * @var
+     */
     protected static $clientRegistrar;
 
+    /**
+     * @var
+     */
     protected static $sessionRegistrar;
 
+    /**
+     * @var
+     */
     protected static $tokenGenerator;
 
+    /**
+     * @var
+     */
     protected static $clientPersistence;
 
+    /**
+     * @var
+     */
     protected static $sessionPersistence;
 
+    /**
+     * @var
+     */
     protected static $config;
 
+    /**
+     * @var
+     */
     protected static $configOptions;
 
+    /**
+     * @var array
+     */
     protected static $configFile = [
         [
             'source' => 'APIAuth.php',
@@ -38,22 +67,31 @@ class ClientRegistrar
         ],
     ];
 
-    public static function initialize($clientPersistence = null, $sessionPersistence = null){
-        self::$configOptions = new ConfigOptions();
-        self::$configOptions->basePath = realpath('src/config');
-        try {
-            self::$config = new Configurator(self::$configFile, self::$configOptions);
-        } catch (\Exception $exception) {
-            throw new ClientException('unable to load APIAUth Options', 1, $exception);
-        }
-
+    /**
+     * initialize
+     *
+     * @param null                                $clientPersistence
+     * @param null                                $sessionPersistence
+     * @param \eig\Configurator\Configurator|null $config
+     *
+     * @throws \eig\APIAuth\Exceptions\ClientException
+     */
+    public static function initialize($clientPersistence = null, $sessionPersistence = null, Configurator $config = null){
+        self::initializeConfig($config);
         self::initializeTokenGenerator();
         self::initializeClient($clientPersistence);
         self::initializeSession($sessionPersistence);
     }
 
 
-
+    /**
+     * register
+     *
+     * @param $fingerprint
+     * @param $type
+     *
+     * @return \Lcobucci\JWT\Token
+     */
     public static function register($fingerprint, $type){
         $data = [];
         if (
@@ -74,10 +112,18 @@ class ClientRegistrar
         // return token
     }
 
+    /**
+     * initializeTokenGenerator
+     */
     protected static function initializeTokenGenerator(){
         self::$tokenGenerator = new self::$config['APIAuth']['Token Field Generator']();
     }
 
+    /**
+     * initializeClient
+     *
+     * @param null $persistence
+     */
     protected static function initializeClient($persistence = null) {
         if (!empty($persistence) && $persistence instanceof ClientPersistenceInterface)
         {
@@ -88,6 +134,11 @@ class ClientRegistrar
         self::$clientRegistrar = new ClientRegistrarObject(self::$clientPersistence, self::$tokenGenerator);
     }
 
+    /**
+     * initializeSession
+     *
+     * @param null $persistence
+     */
     protected static function initializeSession($persistence = null) {
         if ($persistence != null && $persistence instanceof SessionPersistenceInterface)
         {
@@ -98,6 +149,31 @@ class ClientRegistrar
         self::$sessionRegistrar = new SessionRegistrar(self::$sessionPersistence, self::$tokenGenerator);
     }
 
+    /**
+     * initializeConfig
+     *
+     * @param \eig\Configurator\Configurator|null $config
+     *
+     * @throws \eig\APIAuth\Exceptions\ClientException
+     */
+    protected static function initializeConfig(Configurator $config = null) {
+        if(empty($config)) {
+            self::$configOptions = new ConfigOptions();
+            self::$configOptions->basePath = realpath('src/config');
+            try {
+                self::$config = new Configurator(self::$configFile, self::$configOptions);
+            } catch (\Exception $exception) {
+                throw new ClientException('unable to load APIAUth Options', 1, $exception);
+            }
+        } else {
+            self::$config = $config;
+        }
+    }
+
+    /**
+     * getResitrar
+     * @return mixed
+     */
     public static function getResitrar() {
         return self::$clientRegistrar;
     }
