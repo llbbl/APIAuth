@@ -127,4 +127,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      */
     abstract protected function setToken($token);
 
+    /**
+     * makeNewClientRecord
+     */
+    abstract public function makeNewClientRecord();
+
 }

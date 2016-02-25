@@ -83,4 +83,9 @@ interface ClientPersistenceInterface
     public function token($token = null);
 
 
+    /**
+     * makeNewClientRecord
+     */
+    public function makeNewClientRecord();
+
 }
