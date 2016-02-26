@@ -23,7 +23,16 @@ interface SessionPersistenceInterface
      * @param array $params
      *
      */
-    public function save(array $params);
+    public function save(array $params = null);
+
+    /**
+     * create
+     *
+     * @param array|null $params
+     *
+     * @return mixed
+     */
+    public function create(array $params = null);
 
     /**
      * get
