@@ -75,6 +75,7 @@ class SessionRegistrarTest extends TestAbstract
 
     public function testRegister() {
         $this->persistence->shouldReceive('exists')->andReturn(false);
+        $this->persistence->shouldReceive('timeout');
         $this->assertEquals($this->sessionToken, $this->sessionRegistrar->register($this->clientToken, $this->fingerprint));
     }
 

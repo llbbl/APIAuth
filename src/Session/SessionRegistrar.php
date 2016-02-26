@@ -59,13 +59,15 @@ class SessionRegistrar
         {
             $this->persistence->create();
             $this->persistence->client($clientToken);
+            $this->persistence->token($this->generateToken($fingerprint, $clientToken));
+            $this->persistence->setRevoked(false);
+            $this->persistence->timeout(3600);
+            $this->persistence->save();
+            return $this->persistence->token();
         } else {
             throw new SessionException('Client Token cannot be null or empty and must be a hash', 1);
         }
-        $this->persistence->token($this->generateToken($fingerprint, $clientToken));
-        $this->persistence->setRevoked(false);
-        $this->persistence->save();
-        return $this->persistence->token();
+
     }
 
 
