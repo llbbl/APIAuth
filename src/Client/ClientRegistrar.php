@@ -29,7 +29,7 @@ class ClientRegistrar
      * @param \eig\APIAuth\Contracts\ClientPersistenceInterface $persistence
      * @param \eig\APIAuth\Contracts\TokenFieldGeneratorInterface    $tokenGenerator
      */
-    public function __construct(ClientPersistenceInterface $persistence, TokenFieldGeneratorInterface $tokenGenerator)
+    public function __construct (ClientPersistenceInterface $persistence, TokenFieldGeneratorInterface $tokenGenerator)
     {
         $this->persistence = $persistence;
         $this->tokenGenerator = $tokenGenerator;
@@ -44,20 +44,21 @@ class ClientRegistrar
      * @return Object
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    public function register($fingerprint, $type)
-    {
-        try {
+    public function register($fingerprint, $type){
+        try
+        {
             $this->validateClientFingerprint($fingerprint);
             $this->persistence->create();
             $this->persistence->fingerprint($fingerprint);
-        } catch (ClientException $e) {
+        } catch (ClientException $e){
             // log exception
             throw $e;
         }
-        if ($this->validateClientType($type)) {
+        if( $this->validateClientType($type) )
+        {
             $this->persistence->type($type);
         } else {
-            // log exception
+           // log exception
            throw new ClientException('Client Type cannont be null or empty', 1);
         }
         $this->persistence->token($this->generateToken($fingerprint, $type));
@@ -73,11 +74,12 @@ class ClientRegistrar
      * @return bool
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    protected function validateClientFingerprint($fingerprint)
-    {
-        if (!empty($fingerprint) && strlen($fingerprint) >= 10) {
-            if ($this->persistence->exists(['fingerprint' => $fingerprint])) {
-                throw new ClientException('Client already exists', 1);
+    protected function validateClientFingerprint($fingerprint) {
+        if ( !empty($fingerprint) && strlen($fingerprint) >= 10 )
+        {
+            if ($this->persistence->exists(['fingerprint' => $fingerprint]))
+            {
+                 throw new ClientException('Client already exists', 1);
             } else {
                 return true;
             }
@@ -93,9 +95,9 @@ class ClientRegistrar
      *
      * @return bool
      */
-    protected function validateClientType($type)
-    {
-        if (!empty($type) && strlen($type) >= 3) {
+    protected function validateClientType($type) {
+        if ( !empty($type) && strlen($type) >= 3)
+        {
             return true;
         }
         return false;
@@ -114,4 +116,5 @@ class ClientRegistrar
         $seed = $fingerprint . $type;
         return $this->tokenGenerator->generate($seed);
     }
+
 }
