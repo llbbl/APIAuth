@@ -1,0 +1,5 @@
+preset: psr1, psr2
+
+risky: true
+
+linting: true
