@@ -40,7 +40,7 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @param $clientModel
      */
-    public function __construct ($clientModel)
+    public function __construct($clientModel)
     {
         $this->clientModel = $clientModel;
     }
@@ -52,7 +52,7 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @return boolean
      */
-    abstract public function exists (array $params);
+    abstract public function exists(array $params);
 
     /**
      * save
@@ -61,7 +61,7 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @return mixed
      */
-    abstract public function save (array $params);
+    abstract public function save(array $params);
     // saves the fields of the repository to the
     // client token model
 
@@ -72,7 +72,7 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @return Object || array
      */
-    abstract public function get (array $params);
+    abstract public function get(array $params);
     // retrieves a single client token record by any specified paramaters
     // and loads it into the repository fields
 
@@ -81,7 +81,7 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * all
      * @return array
      */
-    abstract public function all ();
+    abstract public function all();
     // returns an array or collection of ClientToken Records
 
 
@@ -92,8 +92,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    public function create(array $params = null) {
-        if(!empty($params)) {
+    public function create(array $params = null)
+    {
+        if (!empty($params)) {
             $this->loadFields($params);
         } else {
             $this->setDefaultsOnNew();
@@ -107,8 +108,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * isExpired
      * @return bool
      */
-    public function isExpired() {
-        if($this->getStatus() == self::EXPIRED) {
+    public function isExpired()
+    {
+        if ($this->getStatus() == self::EXPIRED) {
             return true;
         }
         return false;
@@ -119,9 +121,10 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @param $expired
      */
-    public function setExpired($expired) {
-        if(is_bool($expired)) {
-            if($expired == true) {
+    public function setExpired($expired)
+    {
+        if (is_bool($expired)) {
+            if ($expired == true) {
                 $this->setStatus(self::EXPIRED);
             } else {
                 $this->setStatus(self::VALID);
@@ -133,8 +136,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * isValid
      * @return bool
      */
-    public function isValid() {
-        if($this->getStatus() == self::VALID) {
+    public function isValid()
+    {
+        if ($this->getStatus() == self::VALID) {
             return true;
         }
         return false;
@@ -145,9 +149,10 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @param $valid
      */
-    public function setValid($valid) {
-        if(is_bool($valid)) {
-            if($valid == true) {
+    public function setValid($valid)
+    {
+        if (is_bool($valid)) {
+            if ($valid == true) {
                 $this->setStatus(self::VALID);
             } else {
                 $this->setStatus(self::INVALID);
@@ -159,8 +164,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * isRevoked
      * @return boolean
      */
-    public function isRevoked () {
-        if($this->getStatus() == self::REVOKED) {
+    public function isRevoked()
+    {
+        if ($this->getStatus() == self::REVOKED) {
             return true;
         }
         return false;
@@ -172,9 +178,10 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * @param bool $revoked
      *
      */
-    public function setRevoked ($revoked) {
-        if(is_bool($revoked)) {
-            if($revoked == true) {
+    public function setRevoked($revoked)
+    {
+        if (is_bool($revoked)) {
+            if ($revoked == true) {
                 $this->setStatus(self::REVOKED);
             } else {
                 $this->setStatus(self::VALID);
@@ -189,9 +196,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @return string
      */
-    public function fingerprint ($fingerprint = null) {
-        if(empty($fingerprint))
-        {
+    public function fingerprint($fingerprint = null)
+    {
+        if (empty($fingerprint)) {
             return $this->getFingerprint();
         } else {
             $this->setFingerprint($fingerprint);
@@ -205,9 +212,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @return string
      */
-    public function type ($type = null) {
-        if(empty($type))
-        {
+    public function type($type = null)
+    {
+        if (empty($type)) {
             return $this->getType();
         } else {
             $this->setType($type);
@@ -221,9 +228,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @return string
      */
-    public function token ($token = null) {
-        if(empty($token))
-        {
+    public function token($token = null)
+    {
+        if (empty($token)) {
             return $this->getToken();
         } else {
             $this->setToken($token);
@@ -245,8 +252,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * @param $fingerprint
      *
      */
-    protected function setFingerprint($fingerprint) {
-        if(!empty($fingerprint)) {
+    protected function setFingerprint($fingerprint)
+    {
+        if (!empty($fingerprint)) {
             $this->fingerprint = $fingerprint;
         }
     }
@@ -255,7 +263,8 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * getType
      * @return string
      */
-    protected function getType() {
+    protected function getType()
+    {
         return $this->type;
     }
 
@@ -265,8 +274,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * @param $type
      *
      */
-    protected function setType($type) {
-        if(!empty($type)) {
+    protected function setType($type)
+    {
+        if (!empty($type)) {
             $this->type = $type;
         }
     }
@@ -276,7 +286,8 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @param $status
      */
-    protected function setStatus($status) {
+    protected function setStatus($status)
+    {
         if (!empty($status)) {
             $this->status = $status;
         }
@@ -286,7 +297,8 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * getStatus
      * @return mixed
      */
-    protected function getStatus() {
+    protected function getStatus()
+    {
         return $this->status;
     }
 
@@ -294,7 +306,8 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * getToken
      * @return string
      */
-    protected function getToken() {
+    protected function getToken()
+    {
         return $this->token;
     }
 
@@ -304,8 +317,9 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * @param $token
      *
      */
-    protected function setToken($token) {
-        if(!empty($token)) {
+    protected function setToken($token)
+    {
+        if (!empty($token)) {
             $this->token = $token;
         }
     }
@@ -313,7 +327,8 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
     /**
      * setDefaultsOnNew
      */
-    protected function setDefaultsOnNew() {
+    protected function setDefaultsOnNew()
+    {
         $this->fingerprint = null;
         $this->token = null;
         $this->type = null;
@@ -324,21 +339,21 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      * canSave
      * @return bool
      */
-    protected function canSave(){
-        if(empty($this->fingerprint)){
-           return false;
-        }
-
-        if(empty($this->type)){
+    protected function canSave()
+    {
+        if (empty($this->fingerprint)) {
             return false;
         }
 
-        if(empty($this->token)) {
+        if (empty($this->type)) {
+            return false;
+        }
+
+        if (empty($this->token)) {
             return false;
         }
 
         return true;
-
     }
 
     /**
@@ -348,9 +363,10 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
      *
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    protected function loadFields($params) {
-        if(is_array($params)) {
-            foreach($params as $key => $value) {
+    protected function loadFields($params)
+    {
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
                 try {
                     $this->$key($value);
                 } catch (\Exception $e) {
@@ -358,8 +374,7 @@ abstract class AbstractClientPersistence implements ClientPersistenceInterface
                 }
             }
         } else {
-            throw new ClientException('Supplied paramter must be an Array' , 1);
+            throw new ClientException('Supplied paramter must be an Array', 1);
         }
     }
-
 }

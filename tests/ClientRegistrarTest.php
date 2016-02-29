@@ -37,7 +37,7 @@ class ClientRegistrarTest extends TestAbstract
     /**
      * setUp
      */
-    public function setUp ()
+    public function setUp()
     {
         $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\ClientPersistenceInterface');
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenFieldGeneratorInterface');
@@ -56,7 +56,7 @@ class ClientRegistrarTest extends TestAbstract
     /**
      * tearDown
      */
-    public function tearDown ()
+    public function tearDown()
     {
         \Mockery::close();
         parent::tearDown();
@@ -65,14 +65,16 @@ class ClientRegistrarTest extends TestAbstract
     /**
      * testConstructor
      */
-    public function testConstructor() {
+    public function testConstructor()
+    {
         $this->assertInstanceOf('eig\APIAuth\Client\ClientRegistrar', $this->clientRegistrar);
     }
 
     /**
      * testRegister
      */
-    public function testRegister() {
+    public function testRegister()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->assertEquals(sha1('this is the token'), $this->clientRegistrar->register($this->fingerprint, $this->type));
     }
@@ -82,7 +84,8 @@ class ClientRegistrarTest extends TestAbstract
      * testFingerprintNull
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testFingerprintNull() {
+    public function testFingerprintNull()
+    {
         $this->clientRegistrar->register(null, $this->type);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -91,7 +94,8 @@ class ClientRegistrarTest extends TestAbstract
      * testFingerprintEmpty
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testFingerprintEmpty() {
+    public function testFingerprintEmpty()
+    {
         $this->clientRegistrar->register('', $this->type);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -100,7 +104,8 @@ class ClientRegistrarTest extends TestAbstract
      * testFingerprintShort
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testFingerprintShort() {
+    public function testFingerprintShort()
+    {
         $this->clientRegistrar->register('ABCDEF', $this->type);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -109,7 +114,8 @@ class ClientRegistrarTest extends TestAbstract
      * testFingerprintExists
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testFingerprintExistsShort() {
+    public function testFingerprintExistsShort()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(true);
         $this->clientRegistrar->register($this->fingerprint, $this->type);
         $this->setExpectedExceptionFromAnnotation();
@@ -119,7 +125,8 @@ class ClientRegistrarTest extends TestAbstract
      * testTypeNull
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testTypeNull() {
+    public function testTypeNull()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->clientRegistrar->register($this->fingerprint, null);
         $this->setExpectedExceptionFromAnnotation();
@@ -129,7 +136,8 @@ class ClientRegistrarTest extends TestAbstract
      * testTypeEmpty
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testTypeEmpty() {
+    public function testTypeEmpty()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->clientRegistrar->register($this->fingerprint, '');
         $this->setExpectedExceptionFromAnnotation();
@@ -139,10 +147,10 @@ class ClientRegistrarTest extends TestAbstract
      * testTypeShort
      * @expectedException eig\APIAuth\Exceptions\ClientException
      */
-    public function testTypeShort() {
+    public function testTypeShort()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->clientRegistrar->register($this->fingerprint, 'AB');
         $this->setExpectedExceptionFromAnnotation();
     }
-
 }
