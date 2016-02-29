@@ -39,12 +39,12 @@ class SessionRegistrarTest extends TestAbstract
     /**
      * setUp
      */
-    public function setUp ()
+    public function setUp()
     {
         $this->sessionToken = sha1('this is the session token');
         $this->fingerprint = md5('this is the clients guid');
         $this->clientToken = sha1('This is the Client Token');
-        $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\SessionPersistenceInterface');
+        $this->persistence = Mockery::mock('eig\APIAuth\Contracts\SessionPersistenceInterface');
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenFieldGeneratorInterface');
         $this->persistence->shouldReceive('create');
         $this->persistence->shouldReceive('client')->andReturn(true);
@@ -60,7 +60,7 @@ class SessionRegistrarTest extends TestAbstract
     /**
      * tearDown
      */
-    public function tearDown ()
+    public function tearDown()
     {
         \Mockery::close();
         parent::tearDown();
@@ -69,11 +69,13 @@ class SessionRegistrarTest extends TestAbstract
     /**
      * testConstructor
      */
-    public function testConstructor() {
+    public function testConstructor()
+    {
         $this->assertInstanceOf('eig\APIAuth\Session\SessionRegistrar', $this->sessionRegistrar);
     }
 
-    public function testRegister() {
+    public function testRegister()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->persistence->shouldReceive('timeout');
         $this->assertEquals($this->sessionToken, $this->sessionRegistrar->register($this->clientToken, $this->fingerprint));
@@ -83,7 +85,8 @@ class SessionRegistrarTest extends TestAbstract
      * testFingerprintNull
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testFingerprintNull() {
+    public function testFingerprintNull()
+    {
         $this->sessionRegistrar->register($this->clientToken, null);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -92,7 +95,8 @@ class SessionRegistrarTest extends TestAbstract
      * testFingerprintEmpty
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testFingerprintEmpty() {
+    public function testFingerprintEmpty()
+    {
         $this->sessionRegistrar->register($this->clientToken, '');
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -101,7 +105,8 @@ class SessionRegistrarTest extends TestAbstract
      * testFingerprintShort
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testFingerprintShort() {
+    public function testFingerprintShort()
+    {
         $this->sessionRegistrar->register($this->clientToken, 'ABCDEF');
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -110,7 +115,8 @@ class SessionRegistrarTest extends TestAbstract
      * testClientTokenNull
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testClientTokenNull() {
+    public function testClientTokenNull()
+    {
         $this->sessionRegistrar->register(null, $this->fingerprint);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -119,7 +125,8 @@ class SessionRegistrarTest extends TestAbstract
      * testClientTokenEmpty
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testClientTokenEmpty() {
+    public function testClientTokenEmpty()
+    {
         $this->sessionRegistrar->register('', $this->fingerprint);
         $this->setExpectedExceptionFromAnnotation();
     }
@@ -137,7 +144,8 @@ class SessionRegistrarTest extends TestAbstract
      * testClientTokenExists
      * @expectedException eig\APIAuth\Exceptions\SessionException
      */
-    public function testClientTokenExists() {
+    public function testClientTokenExists()
+    {
         $this->persistence->shouldReceive('exists')->andReturn(true);
         $this->sessionRegistrar->register($this->clientToken, $this->fingerprint);
         $this->setExpectedExceptionFromAnnotation();

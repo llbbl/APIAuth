@@ -3,14 +3,14 @@
 namespace eig\APIAuth\Exceptions;
 
 /**
- * Class ClientException
+ * Class JWTException
  * @package eig\APIAuth\Exceptions
  */
-class ClientException extends \Exception
+class JWTException extends \Exception
 {
 
     /**
-     * ClientException constructor.
+     * JWTException constructor.
      *
      * @param string          $message
      * @param int             $code

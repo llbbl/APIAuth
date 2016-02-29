@@ -18,5 +18,4 @@ interface TokenFieldGeneratorInterface
      * @return string
      */
     public function generate($seed, $cost = 10);
-
 }

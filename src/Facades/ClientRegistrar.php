@@ -11,7 +11,6 @@ use eig\APIAuth\Contracts\SessionPersistenceInterface;
 use eig\Configurator\Configurator;
 use eig\APIAuth\Client\ClientRegistrar as ClientRegistrarObject;
 
-
 /**
  * Class ClientRegistrar
  * @package eig\APIAuth\Facades
@@ -76,7 +75,8 @@ class ClientRegistrar
      *
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    public static function initialize($clientPersistence = null, $sessionPersistence = null, Configurator $config = null){
+    public static function initialize($clientPersistence = null, $sessionPersistence = null, Configurator $config = null)
+    {
         self::initializeConfig($config);
         self::initializeTokenGenerator();
         self::initializeClient($clientPersistence);
@@ -92,19 +92,19 @@ class ClientRegistrar
      *
      * @return \Lcobucci\JWT\Token
      */
-    public static function register($fingerprint, $type){
+    public static function register($fingerprint, $type)
+    {
         $data = [];
         if (
            is_a(self::$clientRegistrar, 'eig\APIAuth\Client\ClientRegistrar') == false
            ||
            is_a(self::$sessionRegistrar, 'eig\APIAuth\Session\SessionRegistrar') == false
-          )
-          {
-              self::initialize();
-          }
+          ) {
+            self::initialize();
+        }
         $data['ClientToken'] = self::$clientRegistrar->register($fingerprint, $type);
         $data['SessionToken'] = self::$sessionRegistrar->register($data['ClientToken'], $fingerprint);
-        return TokenFactory::build(self::$config, $data);
+        return JWT::build(self::$config, $data);
 
         //next do session registration
         //then call a token builder
@@ -115,7 +115,8 @@ class ClientRegistrar
     /**
      * initializeTokenGenerator
      */
-    protected static function initializeTokenGenerator(){
+    protected static function initializeTokenGenerator()
+    {
         self::$tokenGenerator = new self::$config['APIAuth']['Token Field Generator']();
     }
 
@@ -124,12 +125,12 @@ class ClientRegistrar
      *
      * @param null $persistence
      */
-    protected static function initializeClient($persistence = null) {
-        if (!empty($persistence) && $persistence instanceof ClientPersistenceInterface)
-        {
+    protected static function initializeClient($persistence = null)
+    {
+        if (!empty($persistence) && $persistence instanceof ClientPersistenceInterface) {
             self::$clientPersistence = $persistence;
         } else {
-             self::$clientPersistence = new self::$config['APIAuth']['Client Persistence']();
+            self::$clientPersistence = new self::$config['APIAuth']['Client Persistence']();
         }
         self::$clientRegistrar = new ClientRegistrarObject(self::$clientPersistence, self::$tokenGenerator);
     }
@@ -139,9 +140,9 @@ class ClientRegistrar
      *
      * @param null $persistence
      */
-    protected static function initializeSession($persistence = null) {
-        if ($persistence != null && $persistence instanceof SessionPersistenceInterface)
-        {
+    protected static function initializeSession($persistence = null)
+    {
+        if ($persistence != null && $persistence instanceof SessionPersistenceInterface) {
             self::$sessionPersistence = $persistence;
         } else {
             self::$sessionPersistence = new self::$config['APIAuth']['Session Persistence']();
@@ -156,8 +157,9 @@ class ClientRegistrar
      *
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    protected static function initializeConfig(Configurator $config = null) {
-        if(empty($config)) {
+    protected static function initializeConfig(Configurator $config = null)
+    {
+        if (empty($config)) {
             self::$configOptions = new ConfigOptions();
             self::$configOptions->basePath = realpath('src/config');
             try {
@@ -174,7 +176,8 @@ class ClientRegistrar
      * getResitrar
      * @return mixed
      */
-    public static function getResitrar() {
+    public static function getResitrar()
+    {
         return self::$clientRegistrar;
     }
 }
