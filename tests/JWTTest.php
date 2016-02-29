@@ -45,7 +45,9 @@ class JWTTest extends TestAbstract
     }
 
     public function testBuild() {
-        JWT::build($this->config, $this->fields);
+        $token = JWT::build($this->config, $this->fields);
+        $token = (new Parser())->parse((string)$token);
+        $this->assertEquals($this->fields, json_decode($token->getClaim('data'), true));
     }
 
 
