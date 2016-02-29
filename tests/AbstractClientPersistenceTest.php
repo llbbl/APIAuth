@@ -12,21 +12,21 @@ class AbstractClientPersistenceTest extends TestAbstract
     protected $model;
 
 
-    public function setUp ()
+    public function setUp()
     {
-
         $this->model = Mockery::mock('overload:Illuminate\Database\Eloquent\Model');
         $this->clientPersistence = new AbstractClientPersistenceDummy($this->model);
         parent::setUp();
     }
 
-    public function tearDown ()
+    public function tearDown()
     {
         Mockery::close();
         parent::tearDown();
     }
 
-    public function testTrue() {
+    public function testTrue()
+    {
         return true;
     }
 /*

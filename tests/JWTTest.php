@@ -31,7 +31,7 @@ class JWTTest extends TestAbstract
     ];
 
 
-    public function setUp ()
+    public function setUp()
     {
         parent::setUp();
         $this->configOptions = new ConfigOptions();
@@ -39,30 +39,31 @@ class JWTTest extends TestAbstract
         $this->config = new Configurator($this->configFiles, $this->configOptions);
     }
 
-    public function tearDown ()
+    public function tearDown()
     {
         parent::tearDown();
     }
 
-    public function testBuild() {
+    public function testBuild()
+    {
         $token = JWT::build($this->config, $this->fields);
         $token = (new Parser())->parse((string)$token);
         $this->assertEquals($this->fields, json_decode($token->getClaim('data'), true));
     }
 
-    public function testParse() {
+    public function testParse()
+    {
         $token = JWT::build($this->config, $this->fields);
         $parsedTestToken = (new Parser())->parse((string)$token);
         $parsedToken = JWT::parse($token);
         $this->assertEquals(json_decode($parsedTestToken->getClaim('data')), json_decode($parsedToken->getClaim('data')));
     }
 
-    public function testValidate() {
+    public function testValidate()
+    {
         $token = JWT::build($this->config, $this->fields);
         //$this->assertTrue(JWT::validate($token, $this->config));
         //must add in a id generator provider to match tokens to issue id
         return true;
     }
-
-
 }
