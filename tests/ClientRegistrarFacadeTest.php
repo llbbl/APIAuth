@@ -31,7 +31,7 @@ class ClientRegistrarFacadeTest extends TestAbstract
         $this->type = 'Android';
         $this->library = new PasswordLib();
         $this->clientPersistence = Mockery::mock('overload:eig\APIAuth\Contracts\ClientPersistenceInterface');
-        $this->sessionPersistence = Mockery::mock('overload:eig\APIAuth\Contracts\SessionPersistenceInterface');
+        $this->sessionPersistence = Mockery::mock('eig\APIAuth\Contracts\SessionPersistenceInterface');
 
 
         parent::setUp();

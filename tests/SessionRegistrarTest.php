@@ -44,7 +44,7 @@ class SessionRegistrarTest extends TestAbstract
         $this->sessionToken = sha1('this is the session token');
         $this->fingerprint = md5('this is the clients guid');
         $this->clientToken = sha1('This is the Client Token');
-        $this->persistence = Mockery::mock('overload:eig\APIAuth\Contracts\SessionPersistenceInterface');
+        $this->persistence = Mockery::mock('eig\APIAuth\Contracts\SessionPersistenceInterface');
         $this->tokenGenerator = Mockery::mock('eig\APIAuth\Contracts\TokenFieldGeneratorInterface');
         $this->persistence->shouldReceive('create');
         $this->persistence->shouldReceive('client')->andReturn(true);

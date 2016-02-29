@@ -6,7 +6,7 @@ use eig\Configurator\Configurator;
 use PasswordLib\PasswordLib;
 use Lcobucci\JWT\Builder;
 
-class TokenFactory
+class JWT
 {
     public static function build(Configurator $config, array $params)
     {

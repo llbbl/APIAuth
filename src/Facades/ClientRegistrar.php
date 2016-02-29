@@ -104,7 +104,7 @@ class ClientRegistrar
           }
         $data['ClientToken'] = self::$clientRegistrar->register($fingerprint, $type);
         $data['SessionToken'] = self::$sessionRegistrar->register($data['ClientToken'], $fingerprint);
-        return TokenFactory::build(self::$config, $data);
+        return JWT::build(self::$config, $data);
 
         //next do session registration
         //then call a token builder
