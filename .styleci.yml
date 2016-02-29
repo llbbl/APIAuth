@@ -1,4 +1,4 @@
-preset: psr1, psr2
+preset: psr2
 
 risky: true
 
