@@ -21,7 +21,7 @@ return [
     /*
      * The Field Token Generator
      * This is the class name (including namespace) for the class that
-     * conforms to teh TokenFieldGeneratorInterface that creates the hash tokens
+     * conforms to the TokenFieldGeneratorInterface that creates the hash tokens
      * for the various used token fields such as Client, Session, User
      */
      'Token Field Generator' => 'eig\APIAuth\Tokens\TokenFieldGenerator',
@@ -41,6 +41,47 @@ return [
          */
         'Audience' => 'http://example.com',
 
+        /*
+         * Default NotBefore Interval
+         */
+        'NotBefore' => 60,
+
+        /*
+         * Default Timeout Interval
+         */
+        'Timeout' => 3600,
+
+        /*
+         * Default Label for Fields in the JWT
+         */
+        'Fields' => 'data',
+
+        /*
+         * ID Provider that conforms to the JWT ID Provider interface
+         */
+        'IDProvider' => 'IDProvider',
+
+        /*
+         * Storage Provider for storing JWT values for validation
+         */
+        'Storage' => 'StorageProvider',
+
+        /*
+         * Default Signature
+         * The default key of the signature methods provided
+         */
+        'Signature' => 'sha256',
+
+        /*
+         * Signature Methods
+         * Available signature methods and their corresponding providers
+         */
+        'Signature Methods' => [
+
+            'sha256' => 'sha256fQclassname',
+
+            'rsa' => 'rsafqclassname'
+        ]
 
 
     ]
