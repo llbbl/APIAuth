@@ -20,7 +20,7 @@ class TokenFieldGenerator implements TokenFieldGeneratorInterface
     /**
      * TokenFieldGenerator constructor.
      */
-    public function __construct()
+    public function __construct ()
     {
         $this->library = new PasswordLib();
     }
@@ -33,8 +33,10 @@ class TokenFieldGenerator implements TokenFieldGeneratorInterface
      *
      * @return bool|string
      */
-    public function generate($seed, $cost = 10)
+    public function generate ($seed, $cost = 10)
     {
-        return $this->library->createPasswordHash($seed, '$2a$', array('cost' => $cost));
+       return $this->library->createPasswordHash($seed, '$2a$', array('cost' => $cost));
     }
+
+
 }

@@ -31,7 +31,7 @@ class SessionRegistrar
      * @param \eig\APIAuth\Contracts\SessionPersistenceInterface $persistence
      * @param \eig\APIAuth\Contracts\TokenFieldGeneratorInterface     $tokenGenerator
      */
-    public function __construct(SessionPersistenceInterface $persistence, TokenFieldGeneratorInterface $tokenGenerator)
+    public function __construct (SessionPersistenceInterface $persistence, TokenFieldGeneratorInterface $tokenGenerator)
     {
         $this->persistence = $persistence;
         $this->tokenGenerator = $tokenGenerator;
@@ -47,14 +47,16 @@ class SessionRegistrar
      * @return Object
      * @throws \eig\APIAuth\Exceptions\SessionException
      */
-    public function register($clientToken, $fingerprint)
-    {
-        try {
+    public function register($clientToken, $fingerprint){
+        try
+        {
             $this->validateClientFingerprint($fingerprint);
-        } catch (SessionException $e) {
+        } catch (SessionException $e){
+
             throw $e;
         }
-        if ($this->validateClientToken($clientToken)) {
+        if( $this->validateClientToken($clientToken) )
+        {
             $this->persistence->create();
             $this->persistence->client($clientToken);
             $this->persistence->token($this->generateToken($fingerprint, $clientToken));
@@ -65,6 +67,7 @@ class SessionRegistrar
         } else {
             throw new SessionException('Client Token cannot be null or empty and must be a hash', 1);
         }
+
     }
 
 
@@ -76,9 +79,9 @@ class SessionRegistrar
      * @return bool
      * @throws \eig\APIAuth\Exceptions\SessionException
      */
-    protected function validateClientFingerprint($fingerprint)
-    {
-        if (!empty($fingerprint) && strlen($fingerprint) >= 10) {
+    protected function validateClientFingerprint($fingerprint) {
+        if ( !empty($fingerprint) && strlen($fingerprint) >= 10 )
+        {
             return true;
         } else {
             throw new SessionException('Client Fingerprint submitted cannot be null or empty, and length must be >= 10 char', 1);
@@ -94,12 +97,13 @@ class SessionRegistrar
      * @return bool
      * @throws \eig\APIAuth\Exceptions\SessionException
      */
-    protected function validateClientToken($clientToken)
-    {
+    protected function validateClientToken($clientToken) {
         if (!empty($clientToken) && $this->clientTokenIsHash($clientToken) == true) {
-            if ($this->persistence->exists(['clientToken' => $clientToken]) == true) {
+            if ($this->persistence->exists(['clientToken' => $clientToken]) == true)
+            {
                 throw new SessionException('Client Session already exists', 1);
-            } else {
+            } else
+            {
                 return true;
             }
         }
@@ -113,8 +117,7 @@ class SessionRegistrar
      *
      * @return int
      */
-    protected function clientTokenIsHash($clientToken)
-    {
+    protected function clientTokenIsHash($clientToken) {
         /*
         return preg_match('/^[0-9a-f]{40}$/i', $clientToken);
 
@@ -131,8 +134,9 @@ class SessionRegistrar
      *
      * @return string
      */
-    protected function generateToken($fingerprint, $clientToken)
-    {
+    protected function generateToken($fingerprint, $clientToken) {
         return $this->tokenGenerator->generate($clientToken . $fingerprint);
     }
+
+
 }

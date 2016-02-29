@@ -117,4 +117,8 @@ interface ClientPersistenceInterface
      * @return Object || array
      */
     public function token($token = null);
+
+
+
+
 }
