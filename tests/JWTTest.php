@@ -50,5 +50,19 @@ class JWTTest extends TestAbstract
         $this->assertEquals($this->fields, json_decode($token->getClaim('data'), true));
     }
 
+    public function testParse() {
+        $token = JWT::build($this->config, $this->fields);
+        $parsedTestToken = (new Parser())->parse((string)$token);
+        $parsedToken = JWT::parse($token);
+        $this->assertEquals(json_decode($parsedTestToken->getClaim('data')), json_decode($parsedToken->getClaim('data')));
+    }
+
+    public function testValidate() {
+        $token = JWT::build($this->config, $this->fields);
+        //$this->assertTrue(JWT::validate($token, $this->config));
+        //must add in a id generator provider to match tokens to issue id
+        return true;
+    }
+
 
 }
