@@ -2,7 +2,6 @@
 
 namespace eig\APIAuth\Tests;
 
-
 use eig\APIAuth\Tokens\TokenFieldGenerator;
 
 /**
@@ -31,7 +30,7 @@ class TokenFieldGeneratorTest extends TestAbstract
     /**
      * setUp
      */
-    public function setUp ()
+    public function setUp()
     {
         $this->tokenGenerator = new TokenFieldGenerator();
         $this->seed = (string)bin2hex(openssl_random_pseudo_bytes(24));
@@ -42,7 +41,8 @@ class TokenFieldGeneratorTest extends TestAbstract
     /**
      * testGenerate
      */
-    public function testGenerate() {
+    public function testGenerate()
+    {
         $expected = password_hash($this->cost, PASSWORD_DEFAULT, ['cost' => $this->cost]);
         $this->assertNotEquals($expected, $this->tokenGenerator->generate($this->seed, $this->cost));
     }

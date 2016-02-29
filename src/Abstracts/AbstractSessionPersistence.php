@@ -51,7 +51,7 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @param $sessionModel
      */
-    public function __construct ($sessionModel)
+    public function __construct($sessionModel)
     {
         $this->sessionModel = $sessionModel;
     }
@@ -63,7 +63,7 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @return boolean
      */
-    abstract public function exists (array $params);
+    abstract public function exists(array $params);
 
     /**
      * save
@@ -72,7 +72,7 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @return mixed
      */
-    abstract public function save (array $params = null);
+    abstract public function save(array $params = null);
 
     /**
      * get
@@ -81,13 +81,13 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @return Object || array
      */
-    abstract public function get (array $params);
+    abstract public function get(array $params);
 
     /**
      * all
      * @return array
      */
-    abstract public function all ();
+    abstract public function all();
 
 
     /**
@@ -97,8 +97,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @throws \eig\APIAuth\Exceptions\SessionException
      */
-    public function create(array $params = null) {
-        if(!empty($params)) {
+    public function create(array $params = null)
+    {
+        if (!empty($params)) {
             $this->loadFields($params);
         } else {
             $this->setDefaultsOnNew();
@@ -112,8 +113,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * isExpired
      * @return bool
      */
-    public function isExpired() {
-        if($this->getStatus() == self::EXPIRED) {
+    public function isExpired()
+    {
+        if ($this->getStatus() == self::EXPIRED) {
             return true;
         }
         return false;
@@ -124,9 +126,10 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @param $expired
      */
-    public function setExpired($expired) {
-        if(is_bool($expired)) {
-            if($expired == true) {
+    public function setExpired($expired)
+    {
+        if (is_bool($expired)) {
+            if ($expired == true) {
                 $this->setStatus(self::EXPIRED);
             } else {
                 $this->setStatus(self::VALID);
@@ -138,8 +141,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * isValid
      * @return bool
      */
-    public function isValid() {
-        if($this->getStatus() == self::VALID) {
+    public function isValid()
+    {
+        if ($this->getStatus() == self::VALID) {
             return true;
         }
         return false;
@@ -150,9 +154,10 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @param $valid
      */
-    public function setValid($valid) {
-        if(is_bool($valid)) {
-            if($valid == true) {
+    public function setValid($valid)
+    {
+        if (is_bool($valid)) {
+            if ($valid == true) {
                 $this->setStatus(self::VALID);
             } else {
                 $this->setStatus(self::INVALID);
@@ -164,8 +169,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * isRevoked
      * @return boolean
      */
-    public function isRevoked () {
-        if($this->getStatus() == self::REVOKED) {
+    public function isRevoked()
+    {
+        if ($this->getStatus() == self::REVOKED) {
             return true;
         }
         return false;
@@ -177,9 +183,10 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * @param bool $revoked
      *
      */
-    public function setRevoked ($revoked) {
-        if(is_bool($revoked)) {
-            if($revoked == true) {
+    public function setRevoked($revoked)
+    {
+        if (is_bool($revoked)) {
+            if ($revoked == true) {
                 $this->setStatus(self::REVOKED);
             } else {
                 $this->setStatus(self::VALID);
@@ -194,9 +201,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @return string
      */
-    public function token ($token = null) {
-        if(empty($token))
-        {
+    public function token($token = null)
+    {
+        if (empty($token)) {
             return $this->getToken();
         } else {
             $this->setToken($token);
@@ -211,9 +218,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @return null || string
      */
-    public function client($client = null) {
-        if(empty($client))
-        {
+    public function client($client = null)
+    {
+        if (empty($client)) {
             return $this->getClient();
         } else {
             $this->setClient($client);
@@ -228,9 +235,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @return integer || null
      */
-    public function timeout ($timeout = null) {
-        if(empty($timeout))
-        {
+    public function timeout($timeout = null)
+    {
+        if (empty($timeout)) {
             return $this->getTimeout();
         } else {
             $this->setTimeout($timeout);
@@ -241,7 +248,8 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * getToken
      * @return string
      */
-    protected function getToken() {
+    protected function getToken()
+    {
         return $this->sessionToken;
     }
 
@@ -251,8 +259,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * @param $token
      *
      */
-    protected function setToken($token) {
-        if(!empty($token)) {
+    protected function setToken($token)
+    {
+        if (!empty($token)) {
             $this->sessionToken = $token;
         }
     }
@@ -261,7 +270,8 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * getTimeout
      * @return integer
      */
-    protected function getTimeout() {
+    protected function getTimeout()
+    {
         return $this->timeout;
     }
 
@@ -270,8 +280,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @param $timeout
      */
-    protected function setTimeout($timeout) {
-        if(!empty($timeout)) {
+    protected function setTimeout($timeout)
+    {
+        if (!empty($timeout)) {
             $this->timeout = $timeout;
         }
     }
@@ -280,7 +291,8 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * getClient
      * @return string
      */
-    protected function getClient() {
+    protected function getClient()
+    {
         return $this->clientToken;
     }
 
@@ -289,8 +301,9 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @param string $client
      */
-    protected function setClient($client) {
-        if(!empty($client)) {
+    protected function setClient($client)
+    {
+        if (!empty($client)) {
             $this->clientToken = $client;
         }
     }
@@ -300,7 +313,8 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @param $status
      */
-    protected function setStatus($status) {
+    protected function setStatus($status)
+    {
         if (!empty($status)) {
             $this->status = $status;
         }
@@ -310,14 +324,16 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * getStatus
      * @return mixed
      */
-    protected function getStatus() {
+    protected function getStatus()
+    {
         return $this->status;
     }
 
     /**
      * setDefaultsOnNew
      */
-    protected function setDefaultsOnNew() {
+    protected function setDefaultsOnNew()
+    {
         $this->clientToken = null;
         $this->sessionToken = null;
         $this->timeout = null;
@@ -328,21 +344,21 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      * canSave
      * @return bool
      */
-    protected function canSave(){
-        if(empty($this->clientToken)){
+    protected function canSave()
+    {
+        if (empty($this->clientToken)) {
             return false;
         }
 
-        if(empty($this->sessionToken)){
+        if (empty($this->sessionToken)) {
             return false;
         }
 
-        if(empty($this->timeout)) {
+        if (empty($this->timeout)) {
             return false;
         }
 
         return true;
-
     }
 
 
@@ -353,9 +369,10 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
      *
      * @throws \eig\APIAuth\Exceptions\SessionException
      */
-    protected function loadFields($params) {
-        if(is_array($params)) {
-            foreach($params as $key => $value) {
+    protected function loadFields($params)
+    {
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
                 try {
                     $this->$key($value);
                 } catch (\Exception $e) {
@@ -363,8 +380,7 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
                 }
             }
         } else {
-            throw new SessionException('Supplied parameter must be an Array' , 1);
+            throw new SessionException('Supplied parameter must be an Array', 1);
         }
     }
-
 }

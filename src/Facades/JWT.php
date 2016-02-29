@@ -14,8 +14,7 @@ class JWT
     public static function build(Configurator $config, array $params)
     {
         $library = new PasswordLib();
-        try
-        {
+        try {
             $token = (new Builder())
                 ->setIssuer($config['APIAuth']['JWT']['Issuer'])
                 ->setAudience($config['APIAuth']['JWT']['Audience'])
@@ -31,11 +30,10 @@ class JWT
         } catch (\Exception $e) {
             throw new JWTException('Unable to build a JWT token', 1, $e);
         }
-
-
     }
 
-    public static function parse($token) {
+    public static function parse($token)
+    {
         try {
             return (new Parser())->parse((string)$token);
         } catch (\Exception $e) {
@@ -43,7 +41,8 @@ class JWT
         }
     }
 
-    public static function validate($token, Configurator $config) {
+    public static function validate($token, Configurator $config)
+    {
         $library = new PasswordLib();
         $data = new ValidationData();
         $data->setIssuer($config['APIAuth']['JWT']['Issuer']);
@@ -54,11 +53,9 @@ class JWT
         } catch (\Exception $e) {
             throw new JWTException('$token is not a JWT token', 1, $e);
         }
-
-
     }
 
-    public static function add($token) {
-
+    public static function add($token)
+    {
     }
 }

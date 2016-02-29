@@ -25,7 +25,7 @@ class ClientRegistrarFacadeTest extends TestAbstract
     protected $type;
 
 
-    public function setUp ()
+    public function setUp()
     {
         $this->fingerprint = md5('this is the clients guid');
         $this->type = 'Android';
@@ -37,13 +37,14 @@ class ClientRegistrarFacadeTest extends TestAbstract
         parent::setUp();
     }
 
-    public function tearDown ()
+    public function tearDown()
     {
         \Mockery::close();
         parent::tearDown();
     }
 
-    public function testRegister() {
+    public function testRegister()
+    {
         $ctoken = $this->library->createPasswordHash($this->fingerprint . $this->type, '$2a$', array('cost' => 10));
         $this->clientPersistence->shouldReceive('fingerprint')->andReturn(true);
         $this->clientPersistence->shouldReceive('exists')->andReturn(false);
