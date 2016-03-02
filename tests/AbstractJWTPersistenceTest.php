@@ -27,4 +27,14 @@ class AbstractJWTPersistenceTest extends TestAbstract
     public function testConstructor() {
         $this->assertInstanceOf('eig\APIAuth\Abstracts\AbstractJWTPersistence', $this->jwtPersistence);
     }
+
+    public function testSignature() {
+        $this->jwtPersistence->signature('this is a signature');
+        $this->assertEquals('this is a signature', $this->jwtPersistence->signature());
+    }
+
+    public function testIssued() {
+        $this->jwtPersistence->issued('now');
+        $this->assertEquals('now', $this->jwtPersistence->issued());
+    }
 }

@@ -46,7 +46,7 @@ interface JWTPersistenceInterface
      *
      * @param array $params
      *
-     * @return booleans
+     * @return boolean
      */
     public function exists(array $params);
 }

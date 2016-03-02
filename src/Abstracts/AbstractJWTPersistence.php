@@ -7,17 +7,36 @@ use eig\APIAuth\Contracts\booleans;
 use eig\APIAuth\Contracts\JWTPersistenceInterface;
 use eig\APIAuth\Exceptions\JWTException;
 
+/**
+ * Class AbstractJWTPersistence
+ * @package eig\APIAuth\Abstracts
+ */
 abstract class AbstractJWTPersistence implements JWTPersistenceInterface
 {
 
+    /**
+     * @var
+     */
     protected $id, $signature, $issued, $notBefore, $expiration, $token, $jwtModel;
 
+    /**
+     * AbstractJWTPersistence constructor.
+     *
+     * @param $jwtModel
+     */
     public function __construct ($jwtModel)
     {
         $this->jwtModel = $jwtModel;
     }
 
 
+    /**
+     * create
+     *
+     * @param array|null $params
+     *
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public function create (array $params = null)
     {
         if (!empty($params)) {
@@ -30,14 +49,127 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
         }
     }
 
+    /**
+     * save
+     *
+     * @param array|null $params
+     */
     abstract public function save (array $params = null);
 
+    /**
+     * get
+     *
+     * @param array $params
+     *
+     * @return mixed
+     */
     abstract public function get (array $params);
 
+    /**
+     * all
+     * @return mixed
+     */
     abstract public function all ();
 
+    /**
+     * exists
+     *
+     * @param array $params
+     *
+     * @return boolean
+     */
     abstract public function exists (array $params);
 
+    /**
+     * id
+     * @return mixed
+     */
+    public function id() {
+        return $this->getId();
+    }
+
+    /**
+     * signature
+     *
+     * @param null $signature
+     *
+     * @return mixed
+     */
+    public function signature($signature = null) {
+        if(empty($signature)) {
+            return $this->getSignature();
+        } else {
+            $this->setSignature($signature);
+        }
+    }
+
+    /**
+     * issued
+     *
+     * @param null $issued
+     *
+     * @return mixed
+     */
+    public function issued($issued = null) {
+        if(empty($issued)) {
+            return $this->getIssued();
+        } else {
+            $this->setIssued($issued);
+        }
+    }
+
+    /**
+     * notBefore
+     *
+     * @param null $notBefore
+     *
+     * @return mixed
+     */
+    public function notBefore($notBefore = null) {
+        if(empty($notBefore)) {
+            return $this->getBefore();
+        } else {
+            $this->setNotBefore($notBefore);
+        }
+    }
+
+    /**
+     * expiration
+     *
+     * @param null $expiration
+     *
+     * @return mixed
+     */
+    public function expiration($expiration = null) {
+        if(empty($expiration)) {
+            return $this->getExpiration();
+        } else {
+            $this->setExpiration($expiration);
+        }
+    }
+
+    /**
+     * token
+     *
+     * @param null $token
+     *
+     * @return mixed
+     */
+    public function token($token = null) {
+        if(empty($token)) {
+            return $this->getToken();
+        } else {
+            $this->setToken($token);
+        }
+    }
+
+    /**
+     * loadFields
+     *
+     * @param $params
+     *
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     protected function loadFields($params)
     {
         if (is_array($params)) {
@@ -53,6 +185,10 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
         }
     }
 
+    /**
+     * canSave
+     * @return bool
+     */
     protected function canSave()
     {
         if (empty($this->token)) {
@@ -78,6 +214,9 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
         return true;
     }
 
+    /**
+     * setDefaultsOnNew
+     */
     protected function setDefaultsOnNew()
     {
         $this->signature = null;
@@ -87,56 +226,21 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
         $this->expiration = null;
     }
 
-    public function id() {
-        return $this->getId();
-    }
-
-    public function signature($signature = null) {
-        if(empty($signature)) {
-            return $this->getSignature();
-        } else {
-            $this->setSignature($signature);
-        }
-    }
-
-    public function issued($issued = null) {
-        if(empty($issued)) {
-            return $this->getIssued();
-        } else {
-            $this->setIssued($issued);
-        }
-    }
-
-    public function notBefore($notBefore = null) {
-        if(empty($notBefore)) {
-            return $this->getBefore();
-        } else {
-            $this->setNotBefore($notBefore);
-        }
-    }
-
-    public function expiration($expiration = null) {
-        if(empty($expiration)) {
-            return $this->getExpiration();
-        } else {
-            $this->setExpiration($expiration);
-        }
-    }
-
-    public function token($token = null) {
-        if(empty($token)) {
-            return $this->getToken();
-        } else {
-            $this->setToken($token);
-        }
-    }
-
+    /**
+     * getId
+     * @return mixed
+     */
     protected function getId ()
     {
         return $this->id;
     }
 
 
+    /**
+     * setId
+     *
+     * @param $id
+     */
     protected function setId ($id)
     {
         if(!empty($id)) {
@@ -146,12 +250,21 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     }
 
 
+    /**
+     * getSignature
+     * @return mixed
+     */
     protected function getSignature ()
     {
         return $this->signature;
     }
 
 
+    /**
+     * setSignature
+     *
+     * @param $signature
+     */
     protected function setSignature ($signature)
     {
         if(!empty($signature)) {
@@ -160,12 +273,21 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     }
 
 
+    /**
+     * getIssued
+     * @return mixed
+     */
     protected function getIssued ()
     {
         return $this->issued;
     }
 
 
+    /**
+     * setIssued
+     *
+     * @param $issued
+     */
     protected function setIssued ($issued)
     {
         if(!empty($issued)) {
@@ -174,12 +296,21 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     }
 
 
+    /**
+     * getNotBefore
+     * @return mixed
+     */
     protected function getNotBefore ()
     {
         return $this->notBefore;
     }
 
 
+    /**
+     * setNotBefore
+     *
+     * @param $notBefore
+     */
     protected function setNotBefore ($notBefore)
     {
         if(!empty($notBefore)) {
@@ -188,12 +319,21 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     }
 
 
+    /**
+     * getExpiration
+     * @return mixed
+     */
     protected function getExpiration ()
     {
         return $this->expiration;
     }
 
 
+    /**
+     * setExpiration
+     *
+     * @param $expiration
+     */
     protected function setExpiration ($expiration)
     {
         if(!empty($expiration)) {
@@ -203,12 +343,21 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     }
 
 
+    /**
+     * getToken
+     * @return mixed
+     */
     protected function getToken ()
     {
         return $this->token;
     }
 
 
+    /**
+     * setToken
+     *
+     * @param $token
+     */
     protected function setToken ($token)
     {
         if(!empty($token)) {

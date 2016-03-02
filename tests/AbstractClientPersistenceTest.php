@@ -31,12 +31,10 @@ class AbstractClientPersistenceTest extends TestAbstract
     }
 
     public function testInstantiation() {
-        //$this->assertTrue(is_subclass_of($this->clientPersistence, 'eig\APIAuth\Abstracts\AbstractClientPersistence'));
         $this->assertInstanceOf('eig\APIAuth\Abstracts\AbstractClientPersistence', $this->clientPersistence);
     }
 
     public function testExpired() {
-        // maybe make a test concrete implementation that returns true for any abstract methods
         $this->model->shouldReceive('isExpired')->andReturn(true);
         $this->model->shouldReceive('setExpired');
         $this->clientPersistence->setExpired(true);
