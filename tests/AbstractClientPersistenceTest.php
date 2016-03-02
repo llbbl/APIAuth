@@ -15,7 +15,7 @@ class AbstractClientPersistenceTest extends TestAbstract
     public function setUp()
     {
         $this->model = Mockery::mock('overload:Illuminate\Database\Eloquent\Model');
-        $this->clientPersistence = new AbstractClientPersistenceDummy($this->model);
+        $this->clientPersistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractClientPersistence')->makePartial();
         parent::setUp();
     }
 
@@ -29,10 +29,10 @@ class AbstractClientPersistenceTest extends TestAbstract
     {
         return true;
     }
-/*
+
     public function testInstantiation() {
-        $this->assertTrue(is_subclass_of($this->clientPersistence, 'eig\APIAuth\Abstracts\AbstractClientPersistence'));
-        //$this->assertInstanceOf('eig\APIAuth\Abstracts\AbstractClientPersistence', $this->clientPersistence);
+        //$this->assertTrue(is_subclass_of($this->clientPersistence, 'eig\APIAuth\Abstracts\AbstractClientPersistence'));
+        $this->assertInstanceOf('eig\APIAuth\Abstracts\AbstractClientPersistence', $this->clientPersistence);
     }
 
     public function testExpired() {
@@ -41,5 +41,5 @@ class AbstractClientPersistenceTest extends TestAbstract
         $this->model->shouldReceive('setExpired');
         $this->clientPersistence->setExpired(true);
         $this->assertTrue($this->clientPersistence->isExpired());
-    } */
+    }
 }

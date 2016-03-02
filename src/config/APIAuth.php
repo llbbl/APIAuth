@@ -37,7 +37,7 @@ return [
         'Issuer' => 'http://api.example.com',
 
         /*
-         * Who is recieving the token
+         * Who is receiving the token
          */
         'Audience' => 'http://example.com',
 
@@ -78,9 +78,9 @@ return [
          */
         'Signature Methods' => [
 
-            'sha256' => 'sha256fQclassname',
+            'sha256' => 'Lcobucci\JWT\Signer\Hmac\Sha256',
 
-            'rsa' => 'rsafqclassname'
+            'rsa' => 'Lcobucci\JWT\Signer\Hmac\Sha256;'
         ]
 
 
