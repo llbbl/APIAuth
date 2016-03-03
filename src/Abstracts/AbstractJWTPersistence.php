@@ -127,7 +127,7 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
      */
     public function notBefore($notBefore = null) {
         if(empty($notBefore)) {
-            return $this->getBefore();
+            return $this->getNotBefore();
         } else {
             $this->setNotBefore($notBefore);
         }
