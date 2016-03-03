@@ -121,4 +121,87 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->assertNotNull($this->jwtPersistence->expiration());
         $this->assertNotNull($this->jwtPersistence->issued());
     }
+
+    public function testGetID()
+    {
+        $this->assertNull($this->jwtPersistence->id());
+    }
+
+    /**
+     * testErrorLoadFields
+     * @test
+     * @expectedException eig\APIAUth\Exceptions\JWTException
+     */
+    public function testErrorLoadFields ()
+    {
+        $this->jwtPersistence->shouldNotReceive('save');
+        $params = [
+            'hello' => 'world',
+            'token' => 'token',
+            'notBefore' => 'now',
+            'expiration' => 'later',
+            'issued' => 'now'
+        ];
+        $this->jwtPersistence->create($params);
+        $this->setExpectedExceptionFromAnnotation();
+    }
+
+    public function testCreateWithoutSignature()
+    {
+        $this->jwtPersistence->shouldNotReceive('save');
+        $params = [
+            'token'      => 'token',
+            'notBefore'  => 'now',
+            'expiration' => 'later',
+            'issued'     => 'now'
+        ];
+        $this->jwtPersistence->create($params);
+        $this->assertNull($this->jwtPersistence->signature());
+    }
+
+    public function testCreateWithoutToken ()
+    {
+        $params = [
+            'signature'  => 'signature',
+            'notBefore'  => 'now',
+            'expiration' => 'later',
+            'issued'     => 'now'
+        ];
+        $this->jwtPersistence->create($params);
+        $this->assertNull($this->jwtPersistence->token());
+    }
+    public function testCreateWithoutNotBefore()
+    {
+        $params = [
+            'signature'  => 'signature',
+            'token'      => 'token',
+            'expiration' => 'later',
+            'issued'     => 'now'
+        ];
+        $this->jwtPersistence->create($params);
+        $this->assertNull($this->jwtPersistence->notBefore());
+    }
+    public function testCreateWithoutExpiration()
+    {
+        $params = [
+            'signature' => 'signature',
+            'token'     => 'token',
+            'notBefore' => 'now',
+            'issued'    => 'now'
+        ];
+        $this->jwtPersistence->create($params);
+        $this->assertNull($this->jwtPersistence->expiration());
+    }
+    public function testCreateWithoutIssued()
+    {
+        $params = [
+            'signature' => 'signature',
+            'token' => 'token',
+            'notBefore' => 'now',
+            'expiration' => 'later'
+        ];
+        $this->jwtPersistence->create($params);
+        $this->assertNull($this->jwtPersistence->issued());
+
+    }
 }
