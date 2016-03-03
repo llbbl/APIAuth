@@ -49,4 +49,60 @@ interface JWTPersistenceInterface
      * @return boolean
      */
     public function exists(array $params);
+
+    /**
+     * id
+     * @return string
+     */
+    public function id();
+
+    /**
+     * signature
+     *
+     * @param null $signature
+     *
+     * @return mixed
+     */
+    public function signature($signature = null);
+
+    /**
+     * issued
+     *
+     * @param null $issued
+     *
+     * @return mixed
+     */
+    public function issued($issued = null);
+
+    /**
+     * notBefore
+     *
+     * @param null $notBefore
+     *
+     * @return mixed
+     */
+    public function notBefore($notBefore = null);
+
+    /**
+     * expiration
+     *
+     * @param null $expiration
+     *
+     * @return mixed
+     */
+    public function expiration($expiration = null);
+
+    /**
+     * token
+     *
+     * @param null $token
+     *
+     * @return mixed
+     */
+    public function token ($token = null);
+
+    {
+
+    }
+
 }
