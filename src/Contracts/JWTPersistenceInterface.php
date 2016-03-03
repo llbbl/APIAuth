@@ -101,8 +101,5 @@ interface JWTPersistenceInterface
      */
     public function token ($token = null);
 
-    {
-
-    }
 
 }
