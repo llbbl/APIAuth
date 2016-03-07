@@ -2,6 +2,7 @@
 
 namespace eig\APIAuth\Facades;
 
+use eig\APIAuth\Contracts\JWTPersistenceInterface;
 use eig\Configurator\Options as ConfigOptions;
 use eig\APIAuth\Contracts\ClientPersistenceInterface;
 use eig\APIAuth\Exceptions\ClientException;
@@ -66,21 +67,29 @@ class ClientRegistrar
         ],
     ];
 
+
     /**
      * initialize
      *
      * @param null                                $clientPersistence
      * @param null                                $sessionPersistence
      * @param \eig\Configurator\Configurator|null $config
+     * @param null                                $jwtPersistence
      *
      * @throws \eig\APIAuth\Exceptions\ClientException
      */
-    public static function initialize($clientPersistence = null, $sessionPersistence = null, Configurator $config = null)
+    public static function initialize(
+        $clientPersistence = null,
+        $sessionPersistence = null,
+        Configurator $config = null,
+        $jwtPersistence = null
+    )
     {
         self::initializeConfig($config);
         self::initializeTokenGenerator();
         self::initializeClient($clientPersistence);
         self::initializeSession($sessionPersistence);
+        self::initializeJWT($jwtPersistence);
     }
 
 
@@ -104,7 +113,8 @@ class ClientRegistrar
         }
         $data['ClientToken'] = self::$clientRegistrar->register($fingerprint, $type);
         $data['SessionToken'] = self::$sessionRegistrar->register($data['ClientToken'], $fingerprint);
-        return JWT::build(self::$config, $data);
+
+        return JWT::build($data);
 
         //next do session registration
         //then call a token builder
@@ -171,6 +181,23 @@ class ClientRegistrar
             self::$config = $config;
         }
     }
+
+    /**
+     * initializeJWT
+     *
+     * @param \eig\APIAuth\Contracts\JWTPersistenceInterface|null $jwtPersistence
+     */
+    protected static function initializeJWT(JWTPersistenceInterface $jwtPersistence = null)
+    {
+        if(!empty($jwtPersistence) && $jwtPersistence instanceof JWTPersistenceInterface)
+        {
+            JWT::initialize(self::$config, $jwtPersistence);
+        } else {
+            JWT::initialize(self::$config);
+        }
+
+    }
+
 
     /**
      * getResitrar

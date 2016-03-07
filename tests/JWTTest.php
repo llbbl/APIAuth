@@ -4,6 +4,7 @@ namespace eig\APIAuth\Tests;
 
 use eig\Configurator\Configurator;
 use eig\Configurator\Options as ConfigOptions;
+use Mockery;
 use Lcobucci\JWT\Parser;
 use eig\APIAuth\Facades\JWT;
 
@@ -30,13 +31,17 @@ class JWTTest extends TestAbstract
         'token' => 'token'
     ];
 
+    protected $persistence;
+
 
     public function setUp()
     {
         parent::setUp();
+        $this->persistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractJWTPersistence');
         $this->configOptions = new ConfigOptions();
         $this->configOptions->basePath = realpath('src/config');
         $this->config = new Configurator($this->configFiles, $this->configOptions);
+        JWT::initialize($this->config, $this->persistence);
     }
 
     public function tearDown()
@@ -46,14 +51,28 @@ class JWTTest extends TestAbstract
 
     public function testBuild()
     {
-        $token = JWT::build($this->config, $this->fields);
+        $this->persistence->shouldReceive('id')->andReturn('123456543');
+        $this->persistence->shouldReceive('issued');
+        $this->persistence->shouldReceive('expiration');
+        $this->persistence->shouldReceive('notBefore');
+        $this->persistence->shouldReceive('token');
+        $this->persistence->shouldReceive('create');
+        $this->persistence->shouldReceive('save');
+        $token = JWT::build($this->fields);
         $token = (new Parser())->parse((string)$token);
         $this->assertEquals($this->fields, json_decode($token->getClaim('data'), true));
     }
 
     public function testParse()
     {
-        $token = JWT::build($this->config, $this->fields);
+        $this->persistence->shouldReceive('create');
+        $this->persistence->shouldReceive('issued');
+        $this->persistence->shouldReceive('expiration');
+        $this->persistence->shouldReceive('notBefore');
+        $this->persistence->shouldReceive('token');
+        $this->persistence->shouldReceive('save');
+        $this->persistence->shouldReceive('id')->andReturn('123456543');
+        $token = JWT::build($this->fields);
         $parsedTestToken = (new Parser())->parse((string)$token);
         $parsedToken = JWT::parse($token);
         $this->assertEquals(json_decode($parsedTestToken->getClaim('data')), json_decode($parsedToken->getClaim('data')));
@@ -61,9 +80,17 @@ class JWTTest extends TestAbstract
 
     public function testValidate()
     {
-        $token = JWT::build($this->config, $this->fields);
-        //$this->assertTrue(JWT::validate($token, $this->config));
-        //must add in a id generator provider to match tokens to issue id
+        $this->persistence->shouldReceive('get');
+        $this->persistence->shouldReceive('id')->andReturn('123456543');
+        $this->persistence->shouldReceive('issued');
+        $this->persistence->shouldReceive('expiration');
+        $this->persistence->shouldReceive('notBefore');
+        $this->persistence->shouldReceive('create');
+        $this->persistence->shouldReceive('token');
+        $this->persistence->shouldReceive('save');
+        $token = JWT::build($this->fields);
+        sleep(31);
+        $this->assertTrue(JWT::validate($token));
         return true;
     }
 }

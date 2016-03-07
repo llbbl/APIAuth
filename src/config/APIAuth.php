@@ -44,7 +44,7 @@ return [
         /*
          * Default NotBefore Interval
          */
-        'NotBefore' => 60,
+        'NotBefore' => 30,
 
         /*
          * Default Timeout Interval

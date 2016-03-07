@@ -56,14 +56,6 @@ interface JWTPersistenceInterface
      */
     public function id();
 
-    /**
-     * signature
-     *
-     * @param null $signature
-     *
-     * @return mixed
-     */
-    public function signature($signature = null);
 
     /**
      * issued

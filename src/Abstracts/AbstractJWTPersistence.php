@@ -17,7 +17,7 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     /**
      * @var
      */
-    protected $id, $signature, $issued, $notBefore, $expiration, $token, $jwtModel;
+    protected $id, $issued, $notBefore, $expiration, $token, $jwtModel;
 
     /**
      * AbstractJWTPersistence constructor.
@@ -86,21 +86,6 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
      */
     public function id() {
         return $this->getId();
-    }
-
-    /**
-     * signature
-     *
-     * @param null $signature
-     *
-     * @return mixed
-     */
-    public function signature($signature = null) {
-        if(empty($signature)) {
-            return $this->getSignature();
-        } else {
-            $this->setSignature($signature);
-        }
     }
 
     /**
@@ -195,10 +180,6 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
             return false;
         }
 
-        if (empty($this->signature)) {
-            return false;
-        }
-
         if (empty($this->issued)) {
             return false;
         }
@@ -219,7 +200,6 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
      */
     protected function setDefaultsOnNew()
     {
-        $this->signature = null;
         $this->token = null;
         $this->issued = null;
         $this->notBefore = null;
@@ -247,29 +227,6 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
             $this->id = $id;
         }
 
-    }
-
-
-    /**
-     * getSignature
-     * @return mixed
-     */
-    protected function getSignature ()
-    {
-        return $this->signature;
-    }
-
-
-    /**
-     * setSignature
-     *
-     * @param $signature
-     */
-    protected function setSignature ($signature)
-    {
-        if(!empty($signature)) {
-            $this->signature = $signature;
-        }
     }
 
 

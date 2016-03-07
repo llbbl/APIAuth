@@ -50,15 +50,6 @@ class AbstractJWTPersistenceTest extends TestAbstract
     }
 
     /**
-     * testSignature
-     * @test
-     */
-    public function testSignature() {
-        $this->jwtPersistence->signature('this is a signature');
-        $this->assertEquals('this is a signature', $this->jwtPersistence->signature());
-    }
-
-    /**
      * testIssued
      * @test
      */
@@ -94,34 +85,43 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->assertEquals('this is a token', $this->jwtPersistence->token());
     }
 
+    /**
+     * testCreateNew
+     * @test
+     */
     public function testCreateNew ()
     {
         $this->jwtPersistence->create();
-        $this->assertNull($this->jwtPersistence->signature());
         $this->assertNull($this->jwtPersistence->token());
         $this->assertNull($this->jwtPersistence->expiration());
         $this->assertNull($this->jwtPersistence->notBefore());
         $this->assertNull($this->jwtPersistence->issued());
     }
 
+    /**
+     * testCreateWithParams
+     * @test
+     */
     public function testCreateWithParams()
     {
         $this->jwtPersistence->shouldReceive('save');
         $params = [
-            'signature' => 'signature',
             'token' => 'token',
             'notBefore' => 'now',
             'expiration' => 'later',
             'issued' => 'now'
         ];
         $this->jwtPersistence->create($params);
-        $this->assertNotNull($this->jwtPersistence->signature());
         $this->assertNotNull($this->jwtPersistence->token());
         $this->assertNotNull($this->jwtPersistence->notBefore());
         $this->assertNotNull($this->jwtPersistence->expiration());
         $this->assertNotNull($this->jwtPersistence->issued());
     }
 
+    /**
+     * testGetID
+     * @test
+     */
     public function testGetID()
     {
         $this->assertNull($this->jwtPersistence->id());
@@ -146,23 +146,14 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->setExpectedExceptionFromAnnotation();
     }
 
-    public function testCreateWithoutSignature()
-    {
-        $this->jwtPersistence->shouldNotReceive('save');
-        $params = [
-            'token'      => 'token',
-            'notBefore'  => 'now',
-            'expiration' => 'later',
-            'issued'     => 'now'
-        ];
-        $this->jwtPersistence->create($params);
-        $this->assertNull($this->jwtPersistence->signature());
-    }
 
+    /**
+     * testCreateWithoutToken
+     * @test
+     */
     public function testCreateWithoutToken ()
     {
         $params = [
-            'signature'  => 'signature',
             'notBefore'  => 'now',
             'expiration' => 'later',
             'issued'     => 'now'
@@ -170,10 +161,14 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->jwtPersistence->create($params);
         $this->assertNull($this->jwtPersistence->token());
     }
+
+    /**
+     * testCreateWithoutNotBefore
+     * @test
+     */
     public function testCreateWithoutNotBefore()
     {
         $params = [
-            'signature'  => 'signature',
             'token'      => 'token',
             'expiration' => 'later',
             'issued'     => 'now'
@@ -181,10 +176,14 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->jwtPersistence->create($params);
         $this->assertNull($this->jwtPersistence->notBefore());
     }
+
+    /**
+     * testCreateWithoutExpiration
+     * @test
+     */
     public function testCreateWithoutExpiration()
     {
         $params = [
-            'signature' => 'signature',
             'token'     => 'token',
             'notBefore' => 'now',
             'issued'    => 'now'
@@ -192,10 +191,14 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->jwtPersistence->create($params);
         $this->assertNull($this->jwtPersistence->expiration());
     }
+
+    /**
+     * testCreateWithoutIssued
+     * @test
+     */
     public function testCreateWithoutIssued()
     {
         $params = [
-            'signature' => 'signature',
             'token' => 'token',
             'notBefore' => 'now',
             'expiration' => 'later'
@@ -204,4 +207,5 @@ class AbstractJWTPersistenceTest extends TestAbstract
         $this->assertNull($this->jwtPersistence->issued());
 
     }
+
 }
