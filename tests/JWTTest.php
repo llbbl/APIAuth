@@ -93,4 +93,21 @@ class JWTTest extends TestAbstract
         $this->assertTrue(JWT::validate($token));
         return true;
     }
+
+    public function testAdd()
+    {
+        $newData = ['my' => 'new data'];
+        $this->persistence->shouldReceive('get');
+        $this->persistence->shouldReceive('id')->andReturn('123456543');
+        $this->persistence->shouldReceive('issued');
+        $this->persistence->shouldReceive('expiration');
+        $this->persistence->shouldReceive('notBefore');
+        $this->persistence->shouldReceive('create');
+        $this->persistence->shouldReceive('token');
+        $this->persistence->shouldReceive('save');
+        $token = JWT::build($this->fields);
+        $token = JWT::add($token, $newData);
+        $this->assertArraySubset($newData, json_decode($token->getClaim('data'), true));
+        $this->assertArraySubset($this->fields, json_decode($token->getClaim('data'), true));
+    }
 }
