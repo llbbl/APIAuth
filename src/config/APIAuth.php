@@ -19,6 +19,15 @@ return [
     'Session Persistence' => 'EloquentSessionPersistence',
 
     /*
+     * The User Persistence
+     * THis is the class name (including namespace) for the class that conforms to the
+     * UserPersistenceInterface or extends the AbstractUserPersistence
+     * that is used by the API UserRegistrar class and facades to
+     * store and retrieve users
+     */
+    'User Persistence' => 'EloquentUserPersistence',
+
+    /*
      * The Field Token Generator
      * This is the class name (including namespace) for the class that
      * conforms to the TokenFieldGeneratorInterface that creates the hash tokens

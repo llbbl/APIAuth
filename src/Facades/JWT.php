@@ -9,10 +9,30 @@ use Lcobucci\JWT\ValidationData;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 
+/**
+ * Class JWT
+ * @package eig\APIAuth\Facades
+ */
 class JWT
 {
+
+    /**
+     * @var
+     */
+    /**
+     * @var
+     */
+    /**
+     * @var
+     */
     protected static $persistence, $config, $signer;
 
+    /**
+     * initialize
+     *
+     * @param \eig\Configurator\Configurator                      $config
+     * @param \eig\APIAuth\Contracts\JWTPersistenceInterface|null $persistence
+     */
     public static function initialize (Configurator $config, JWTPersistenceInterface $persistence = null)
     {
         self::$config = $config;
@@ -27,6 +47,14 @@ class JWT
 
     }
 
+    /**
+     * build
+     *
+     * @param array $params
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public static function build(array $params)
     {
         self::persistenceCreate();
@@ -54,6 +82,14 @@ class JWT
         }
     }
 
+    /**
+     * parse
+     *
+     * @param $token
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public static function parse($token)
     {
         try {
@@ -63,6 +99,14 @@ class JWT
         }
     }
 
+    /**
+     * validate
+     *
+     * @param $token
+     *
+     * @return mixed
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public static function validate($token)
     {
         self::$persistence->get(['id' => $token->getClaim('jti')]);
@@ -80,6 +124,15 @@ class JWT
         }
     }
 
+    /**
+     * add
+     *
+     * @param $token
+     * @param $data
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public static function add($token, $data)
     {
         $oldToken = self::parse($token);
@@ -111,6 +164,9 @@ class JWT
 
     }
 
+    /**
+     * persistenceCreate
+     */
     protected static function persistenceCreate()
     {
         self::$persistence->create();

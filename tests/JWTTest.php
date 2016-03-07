@@ -8,9 +8,16 @@ use Mockery;
 use Lcobucci\JWT\Parser;
 use eig\APIAuth\Facades\JWT;
 
+/**
+ * Class JWTTest
+ * @package eig\APIAuth\Tests
+ */
 class JWTTest extends TestAbstract
 {
 
+    /**
+     * @var array
+     */
     protected $configFiles = [
         [
            'source' => 'APIAuth.php',
@@ -21,19 +28,34 @@ class JWTTest extends TestAbstract
         ]
     ];
 
+    /**
+     * @var
+     */
     protected $configOptions;
 
+    /**
+     * @var
+     */
     protected $config;
 
+    /**
+     * @var array
+     */
     protected $fields = [
         'test' => 'value',
         'iam' => 'a field',
         'token' => 'token'
     ];
 
+    /**
+     * @var
+     */
     protected $persistence;
 
 
+    /**
+     * setUp
+     */
     public function setUp()
     {
         parent::setUp();
@@ -44,11 +66,18 @@ class JWTTest extends TestAbstract
         JWT::initialize($this->config, $this->persistence);
     }
 
+    /**
+     * tearDown
+     */
     public function tearDown()
     {
         parent::tearDown();
     }
 
+    /**
+     * testBuild
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public function testBuild()
     {
         $this->persistence->shouldReceive('id')->andReturn('123456543');
@@ -63,6 +92,10 @@ class JWTTest extends TestAbstract
         $this->assertEquals($this->fields, json_decode($token->getClaim('data'), true));
     }
 
+    /**
+     * testParse
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public function testParse()
     {
         $this->persistence->shouldReceive('create');
@@ -78,6 +111,11 @@ class JWTTest extends TestAbstract
         $this->assertEquals(json_decode($parsedTestToken->getClaim('data')), json_decode($parsedToken->getClaim('data')));
     }
 
+    /**
+     * testValidate
+     * @return bool
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public function testValidate()
     {
         $this->persistence->shouldReceive('get');
@@ -94,6 +132,10 @@ class JWTTest extends TestAbstract
         return true;
     }
 
+    /**
+     * testAdd
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public function testAdd()
     {
         $newData = ['my' => 'new data'];
