@@ -43,16 +43,33 @@ class UserRegistrar
         }
     }
 
-    public function authByToken($username, $token) {
-        if(!empty($this->retrieveByToken($username, $token)))
+    public function authByToken($token) {
+        if(!empty($this->retrieveByToken($token)))
         {
             return true;
         }
         return false;
     }
 
-    public function retrieveByToken($username, $token) {
-        return $this->persistence->find(['username' => $username, 'token' => $token]);
+    public function authByPassword($username, $password) {
+        $this->persistence->find(['username' => $username, 'password' => $password]);
+    }
+
+    public function login($username = null, $password = null, $token = null) {
+        if(!empty($username) && !empty($password)) {
+            return $this->authByPassword($username, $password);
+        } else {
+            return $this->retrieveByToken($token);
+        }
+    }
+
+    public function retrieveById($identifier) {
+        return $this->persistence->find(['id' => $identifier]);
+    }
+
+
+    public function retrieveByToken($token) {
+        return $this->persistence->find(['token' => $token]);
     }
 
     public function emailExists($email) {
