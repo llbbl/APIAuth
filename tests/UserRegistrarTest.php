@@ -61,7 +61,10 @@ class UserRegistrarTest extends TestAbstract
     public function testRegister() {
         $this->persistence->shouldReceive('exists')->andReturn(false);
         $this->persistence->shouldReceive('create');
+        $this->persistence->shouldReceive('find')->andReturn(true);
 
-        $this->userRegistrar->register('username', 'email@email.com', 'Password1123&&', 'Password1123&&');
+        $userToken = $this->userRegistrar->register('username', 'email@email.com', 'Password1123&&', 'Password1123&&');
+        $this->assertTrue($this->userRegistrar->authByToken('username', $userToken));
+
     }
 }

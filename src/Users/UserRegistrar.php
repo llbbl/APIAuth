@@ -43,6 +43,18 @@ class UserRegistrar
         }
     }
 
+    public function authByToken($username, $token) {
+        if(!empty($this->retrieveByToken($username, $token)))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public function retrieveByToken($username, $token) {
+        return $this->persistence->find(['username' => $username, 'token' => $token]);
+    }
+
     public function emailExists($email) {
         return $this->persistence->exists('email', $email);
     }
@@ -150,7 +162,7 @@ class UserRegistrar
         } else {
             $seed = $username . $email;
         }
-        $this->tokenGenerator->generate($seed);
+        return $this->tokenGenerator->generate($seed);
     }
 
 }
