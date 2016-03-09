@@ -19,12 +19,6 @@ class JWT
     /**
      * @var
      */
-    /**
-     * @var
-     */
-    /**
-     * @var
-     */
     protected static $persistence, $config, $signer;
 
     /**
@@ -35,6 +29,8 @@ class JWT
      */
     public static function initialize (Configurator $config, JWTPersistenceInterface $persistence = null)
     {
+        // TODO: refactor initialize to take just a file path for config file all other params should be optional
+        // TODO: also add a user Facade
         self::$config = $config;
         if(empty($persistence)) {
             self::$persistence = new self::$config['APIAuth']['JWT']['Storage'];

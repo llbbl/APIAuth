@@ -200,10 +200,10 @@ class ClientRegistrar
 
 
     /**
-     * getResitrar
+     * getRegistrar
      * @return mixed
      */
-    public static function getResitrar()
+    public static function getRegistrar()
     {
         return self::$clientRegistrar;
     }
