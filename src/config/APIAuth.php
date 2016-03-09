@@ -19,9 +19,18 @@ return [
     'Session Persistence' => 'EloquentSessionPersistence',
 
     /*
+     * The User Persistence
+     * THis is the class name (including namespace) for the class that conforms to the
+     * UserPersistenceInterface or extends the AbstractUserPersistence
+     * that is used by the API UserRegistrar class and facades to
+     * store and retrieve users
+     */
+    'User Persistence' => 'EloquentUserPersistence',
+
+    /*
      * The Field Token Generator
      * This is the class name (including namespace) for the class that
-     * conforms to teh TokenFieldGeneratorInterface that creates the hash tokens
+     * conforms to the TokenFieldGeneratorInterface that creates the hash tokens
      * for the various used token fields such as Client, Session, User
      */
      'Token Field Generator' => 'eig\APIAuth\Tokens\TokenFieldGenerator',
@@ -37,10 +46,51 @@ return [
         'Issuer' => 'http://api.example.com',
 
         /*
-         * Who is recieving the token
+         * Who is receiving the token
          */
         'Audience' => 'http://example.com',
 
+        /*
+         * Default NotBefore Interval
+         */
+        'NotBefore' => 30,
+
+        /*
+         * Default Timeout Interval
+         */
+        'Timeout' => 3600,
+
+        /*
+         * Default Label for Fields in the JWT
+         */
+        'Fields' => 'data',
+
+        /*
+         * ID Provider that conforms to the JWT ID Provider interface
+         */
+        'IDProvider' => 'IDProvider',
+
+        /*
+         * Storage Provider for storing JWT values for validation
+         */
+        'Storage' => 'StorageProvider',
+
+        /*
+         * Default Signature
+         * The default key of the signature methods provided
+         */
+        'Signature' => 'sha256',
+
+        /*
+         * Signature Methods
+         * Available signature methods and their corresponding providers
+         */
+        'Signature Methods' => [
+
+            'sha256' => 'Lcobucci\JWT\Signer\Hmac\Sha256',
+
+            'rsa' => 'Lcobucci\JWT\Signer\Hmac\Sha256;'
+        ]
 
 
     ]

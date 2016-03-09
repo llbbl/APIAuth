@@ -15,18 +15,6 @@ abstract class AbstractSessionPersistence implements SessionPersistenceInterface
     /**
      * @var
      */
-    /**
-     * @var
-     */
-    /**
-     * @var
-     */
-    /**
-     * @var
-     */
-    /**
-     * @var
-     */
     protected $clientToken, $sessionToken, $status, $timeout, $sessionModel;
 
     /**

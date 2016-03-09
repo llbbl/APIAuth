@@ -24,7 +24,7 @@ interface ClientPersistenceInterface
      * @param array $params
      *
      */
-    public function save(array $params);
+    public function save(array $params = null);
 
     /**
      * get
