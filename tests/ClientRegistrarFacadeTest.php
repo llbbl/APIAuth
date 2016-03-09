@@ -52,11 +52,6 @@ class ClientRegistrarFacadeTest extends TestAbstract
         $this->fingerprint = md5('this is the clients guid');
         $this->type = 'Android';
         $this->library = new PasswordLib();
-<<<<<<< HEAD
-        $this->clientPersistence = Mockery::mock('overload:eig\APIAuth\Contracts\ClientPersistenceInterface');
-        $this->sessionPersistence = Mockery::mock('overload:eig\APIAuth\Contracts\SessionPersistenceInterface');
-
-=======
         $this->clientPersistence = Mockery::mock('eig\APIAuth\Contracts\ClientPersistenceInterface');
         $this->sessionPersistence = Mockery::mock('eig\APIAuth\Contracts\SessionPersistenceInterface');
         $this->jwtPersistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractJWTPersistence');
@@ -66,7 +61,6 @@ class ClientRegistrarFacadeTest extends TestAbstract
         $this->jwtPersistence->shouldReceive('token');
         $this->jwtPersistence->shouldReceive('save');
         JWT::initialize($this->config, $this->jwtPersistence);
->>>>>>> dev
 
         parent::setUp();
     }
