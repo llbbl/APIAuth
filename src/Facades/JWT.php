@@ -43,6 +43,7 @@ class JWT
                 try
                 {
                     $options = new Options();
+                    $options->basePath = realpath('src/config');
                     self::$config = new Configurator($config, $options);
                 } catch (\Exception $e)
                 {
