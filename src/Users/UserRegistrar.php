@@ -8,15 +8,36 @@ use eig\APIAuth\Contracts\TokenFieldGeneratorInterface;
 use eig\APIAuth\Exceptions\UserException;
 use eig\Configurator\Configurator;
 
+/**
+ * Class UserRegistrar
+ * @package eig\APIAuth\Users
+ */
 class UserRegistrar
 {
+
+    /**
+     * @var \eig\APIAuth\Contracts\UserPersistenceInterface
+     */
     protected $persistence;
 
+    /**
+     * @var \eig\APIAuth\Contracts\TokenFieldGeneratorInterface
+     */
     protected $tokenGenerator;
 
+    /**
+     * @var \eig\Configurator\Configurator
+     */
     protected $config;
 
 
+    /**
+     * UserRegistrar constructor.
+     *
+     * @param \eig\APIAuth\Contracts\UserPersistenceInterface     $persistence
+     * @param \eig\APIAuth\Contracts\TokenFieldGeneratorInterface $tokenGenerator
+     * @param \eig\Configurator\Configurator                      $config
+     */
     public function __construct (
         UserPersistenceInterface $persistence,
         TokenFieldGeneratorInterface $tokenGenerator,
@@ -28,6 +49,17 @@ class UserRegistrar
         $this->config = $config;
     }
 
+    /**
+     * register
+     *
+     * @param      $username
+     * @param null $email
+     * @param      $password
+     * @param null $confirmPassword
+     *
+     * @return string
+     * @throws \eig\APIAuth\Exceptions\UserException
+     */
     public function register($username, $email = null, $password, $confirmPassword = null)
     {
         try {
@@ -43,6 +75,13 @@ class UserRegistrar
         }
     }
 
+    /**
+     * authByToken
+     *
+     * @param $token
+     *
+     * @return bool
+     */
     public function authByToken($token) {
         if(!empty($this->retrieveByToken($token)))
         {
@@ -51,10 +90,23 @@ class UserRegistrar
         return false;
     }
 
+    /**
+     * authByPassword
+     *
+     * @param $username
+     * @param $password
+     */
     public function authByPassword($username, $password) {
         $this->persistence->find(['username' => $username, 'password' => $password]);
     }
 
+    /**
+     * login
+     *
+     * @param null $username
+     * @param null $password
+     * @param null $token
+     */
     public function login($username = null, $password = null, $token = null) {
         if(!empty($username) && !empty($password)) {
             return $this->authByPassword($username, $password);
@@ -63,28 +115,73 @@ class UserRegistrar
         }
     }
 
+    /**
+     * retrieveById
+     *
+     * @param $identifier
+     *
+     * @return mixed
+     */
     public function retrieveById($identifier) {
         return $this->persistence->find(['id' => $identifier]);
     }
 
 
+    /**
+     * retrieveByToken
+     *
+     * @param $token
+     *
+     * @return mixed
+     */
     public function retrieveByToken($token) {
         return $this->persistence->find(['token' => $token]);
     }
 
+    /**
+     * emailExists
+     *
+     * @param $email
+     *
+     * @return mixed
+     */
     public function emailExists($email) {
         return $this->persistence->exists('email', $email);
     }
 
+    /**
+     * userExists
+     *
+     * @param $username
+     *
+     * @return mixed
+     */
     public function userExists($username) {
         return $this->persistence->exists('username', $username);
     }
 
+    /**
+     * create
+     *
+     * @param $username
+     * @param $email
+     * @param $password
+     * @param $token
+     */
     protected function create($username, $email, $password, $token)
     {
         $this->persistence->create($username, $email, $password, $token);
     }
 
+    /**
+     * identicalPasswords
+     *
+     * @param      $password
+     * @param null $confirmPassword
+     *
+     * @return bool
+     * @throws \eig\APIAuth\Exceptions\UserException
+     */
     protected function identicalPasswords($password, $confirmPassword = null)
     {
         if(!empty($confirmPassword)) {
@@ -98,6 +195,14 @@ class UserRegistrar
         throw new UserException('Passwords do not Match', 1);
     }
 
+    /**
+     * passwordMeetsConstraints
+     *
+     * @param $password
+     *
+     * @return bool
+     * @throws \eig\APIAuth\Exceptions\UserException
+     */
     protected function passwordMeetsConstraints($password) {
         $error = '';
 
@@ -136,6 +241,15 @@ class UserRegistrar
         }
     }
 
+    /**
+     * isUniuqe
+     *
+     * @param      $username
+     * @param null $email
+     *
+     * @return bool
+     * @throws \eig\APIAuth\Exceptions\UserException
+     */
     protected function isUniuqe($username, $email = null) {
         if($this->userExists($username)) {
             throw new UserException('User Already Exists', 1);
@@ -151,6 +265,17 @@ class UserRegistrar
         return true;
     }
 
+    /**
+     * registrationChecks
+     *
+     * @param $username
+     * @param $email
+     * @param $password
+     * @param $confirmPassword
+     *
+     * @return bool|string
+     * @throws \eig\APIAuth\Exceptions\UserException
+     */
     protected function registrationChecks($username, $email, $password, $confirmPassword) {
         $return = '';
         try {
@@ -172,6 +297,14 @@ class UserRegistrar
         }
     }
 
+    /**
+     * generateUserToken
+     *
+     * @param      $username
+     * @param null $email
+     *
+     * @return string
+     */
     protected function generateUserToken($username, $email = null) {
         $seed = '';
         if(empty($email)) {

@@ -5,6 +5,7 @@ namespace eig\APIAuth\Facades;
 use eig\APIAuth\Contracts\JWTPersistenceInterface;
 use eig\APIAuth\Exceptions\JWTException;
 use eig\Configurator\Configurator;
+use eig\Configurator\Options;
 use Lcobucci\JWT\ValidationData;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
@@ -19,23 +20,44 @@ class JWT
     /**
      * @var
      */
-    /**
-     * @var
-     */
-    /**
-     * @var
-     */
     protected static $persistence, $config, $signer;
 
     /**
      * initialize
      *
-     * @param \eig\Configurator\Configurator                      $config
+     * @param \eig\Configurator\Configurator || array                  $config
      * @param \eig\APIAuth\Contracts\JWTPersistenceInterface|null $persistence
+     *
+     * @throws JWTException
      */
-    public static function initialize (Configurator $config, JWTPersistenceInterface $persistence = null)
+    public static function initialize ($config, JWTPersistenceInterface $persistence = null)
     {
-        self::$config = $config;
+        if(!empty($config))
+        {
+            if (is_a($config, 'eig\Configurator\Configurator'))
+            {
+                self::$config = $config;
+            }
+            elseif (is_array($config))
+            {
+                try
+                {
+                    self::$config = new Configurator($config, new Options());
+                } catch (\Exception $e)
+                {
+                    throw new JWTException(
+                        'Incorrect config file supplied, must be a Configurator Config File Array', 1, $e
+                    );
+                }
+            }
+            else
+            {
+                throw new JWTException('Error, a config file or Configurator Object must be supplied', 1);
+            }
+        } else {
+            throw new JWTException('Error, a config file or Configurator Object must be supplied', 1);
+        }
+
         if(empty($persistence)) {
             self::$persistence = new self::$config['APIAuth']['JWT']['Storage'];
         } else
