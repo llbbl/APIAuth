@@ -133,7 +133,7 @@ class JWT
      */
     public static function validate($token)
     {
-        self::$persistence->get(['id' => $token->getClaim('jti')]);
+        self::$persistence->find($token->getClaim('jti'));
         $data = new ValidationData();
         $data->setIssuer(self::$config['APIAuth']['JWT']['Issuer']);
         $data->setAudience(self::$config['APIAuth']['JWT']['Audience']);

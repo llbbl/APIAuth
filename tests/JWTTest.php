@@ -120,6 +120,7 @@ class JWTTest extends TestAbstract
     {
         $this->persistence->shouldReceive('get');
         $this->persistence->shouldReceive('id')->andReturn('123456543');
+        $this->persistence->shouldReceive('find')->andReturn('123456543');
         $this->persistence->shouldReceive('issued');
         $this->persistence->shouldReceive('expiration');
         $this->persistence->shouldReceive('notBefore');
@@ -140,6 +141,7 @@ class JWTTest extends TestAbstract
     {
         $newData = ['my' => 'new data'];
         $this->persistence->shouldReceive('get');
+        $this->persistence->shouldReceive('find')->andReturn('123456543');
         $this->persistence->shouldReceive('id')->andReturn('123456543');
         $this->persistence->shouldReceive('issued');
         $this->persistence->shouldReceive('expiration');
