@@ -149,6 +149,17 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     }
 
     /**
+     * find
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function find($id) {
+        return $this->jwtModel->find($id);
+    }
+
+    /**
      * loadFields
      *
      * @param $params
