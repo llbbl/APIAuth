@@ -42,7 +42,8 @@ class JWT
             {
                 try
                 {
-                    self::$config = new Configurator($config, new Options());
+                    $options = new Options();
+                    self::$config = new Configurator($config, $options);
                 } catch (\Exception $e)
                 {
                     throw new JWTException(
