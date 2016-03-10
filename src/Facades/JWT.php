@@ -59,13 +59,13 @@ class JWT
         }
 
         if(empty($persistence)) {
-            self::$persistence = new self::$config['APIAuth']['JWT']['Storage'];
+            self::$persistence = new self::$config['APIAuth']['JWT']['Storage']();
         } else
         {
             self::$persistence = $persistence;
         }
         $signatureMethod = self::$config['APIAuth']['JWT']['Signature'];
-        self::$signer = new self::$config['APIAuth']['JWT']['Signature Methods'][$signatureMethod];
+        self::$signer = new self::$config['APIAuth']['JWT']['Signature Methods'][$signatureMethod]();
 
     }
 
@@ -89,7 +89,7 @@ class JWT
                 ->setNotBefore(time() + self::$config['APIAuth']['JWT']['NotBefore'])
                 ->setExpiration(time() + self::$config['APIAuth']['JWT']['Timeout'])
                 ->set(self::$config['APIAuth']['JWT']['Fields'], json_encode($params))
-                ->sign(self::$signer, self::$persistence->id())
+                ->sign(self::$signer, (string)self::$persistence->id())
                 ->getToken();
 
             self::$persistence->issued($token->getClaim('iat'));
