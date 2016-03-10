@@ -59,13 +59,13 @@ class JWT
         }
 
         if(empty($persistence)) {
-            self::$persistence = new self::$config['APIAuth']['JWT']['Storage'];
+            self::$persistence = new self::$config['APIAuth']['JWT']['Storage']();
         } else
         {
             self::$persistence = $persistence;
         }
         $signatureMethod = self::$config['APIAuth']['JWT']['Signature'];
-        self::$signer = new self::$config['APIAuth']['JWT']['Signature Methods'][$signatureMethod];
+        self::$signer = new self::$config['APIAuth']['JWT']['Signature Methods'][$signatureMethod]();
 
     }
 
