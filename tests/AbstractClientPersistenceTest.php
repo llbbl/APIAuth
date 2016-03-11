@@ -14,8 +14,8 @@ class AbstractClientPersistenceTest extends TestAbstract
 
     public function setUp()
     {
-        $this->model = Mockery::mock('overload:Illuminate\Database\Eloquent\Model');
-        $this->clientPersistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractClientPersistence')->makePartial();
+        $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model');
+        $this->clientPersistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractClientPersistence', [$this->model])->makePartial();
         parent::setUp();
     }
 
