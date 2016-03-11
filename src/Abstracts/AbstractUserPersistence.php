@@ -21,7 +21,7 @@ class AbstractUserPersistence implements UserPersistenceInterface
 
     public function exists ($key, $value)
     {
-        $exists = $this->userModel->where($key, '=', $value)->exists();
+        $exists = $this->userModel->where($key, '=', $value)->first();
         if($exists == null) {
             return false;
         } else {
