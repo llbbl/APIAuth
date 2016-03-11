@@ -99,7 +99,7 @@ class UserRegistrar
     public function authByPassword($username, $password) {
         $user = $this->persistence->find(['username' => $username]);
         if(password_verify($password, $user->password)) {
-            return true;
+            $user->token;
         }
         return false;
     }
