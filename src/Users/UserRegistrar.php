@@ -97,7 +97,11 @@ class UserRegistrar
      * @param $password
      */
     public function authByPassword($username, $password) {
-        $this->persistence->find(['username' => $username, 'password' => $password]);
+        $user = $this->persistence->find(['username' => $username]);
+        if(password_verify($password, $user->password)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -170,6 +174,7 @@ class UserRegistrar
      */
     protected function create($username, $email, $password, $token)
     {
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $this->persistence->create($username, $email, $password, $token);
     }
 

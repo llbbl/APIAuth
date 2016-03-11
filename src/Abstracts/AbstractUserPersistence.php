@@ -31,13 +31,13 @@ class AbstractUserPersistence implements UserPersistenceInterface
 
     public function find (array $params)
     {
-        return $this->userModel->whereNested(function($query, $params)
+        return $this->userModel->whereNested(function($query) use ($params)
         {
             foreach ($params as $key => $value)
             {
                 $query->where($key, '=', $value);
             }
-        })->get();
+        })->first();
     }
 
 
