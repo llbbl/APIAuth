@@ -97,6 +97,7 @@ class UserRegistrar
      * @param $password
      */
     public function authByPassword($username, $password) {
+        $password = bcrypt($password);
         $this->persistence->find(['username' => $username, 'password' => $password]);
     }
 
