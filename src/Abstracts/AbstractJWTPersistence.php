@@ -217,7 +217,7 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
         $this->issued = null;
         $this->notBefore = null;
         $this->expiration = null;
-        $this->jwtModel = $this->jwtModel->create(['token' => $this->token, 'issued' => $this->issued, 'notBefore' => $this->notBefore, 'expiration' => $this->expiration]);
+        $this->jwtModel = $this->jwtModel->create();
         $this->setId($this->jwtModel->id());
     }
 
