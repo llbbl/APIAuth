@@ -37,7 +37,7 @@ class AbstractUserPersistence implements UserPersistenceInterface
             {
                 $query->where($key, '=', $value);
             }
-        })->get();
+        })->first();
     }
 
 
