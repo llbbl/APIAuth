@@ -27,8 +27,10 @@ class AbstractJWTPersistenceTest extends TestAbstract
      */
     public function setUp()
     {
-        $this->model = Mockery::mock('overload:Illuminate\Database\Eloquent\Model');
-        $this->jwtPersistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractJWTPersistence')->makePartial();
+        $this->model = Mockery::mock('Illuminate\Database\Eloquent\Model')->makePartial();
+        $this->model->shouldReceive('create')->andReturn($this->model);
+        $this->model->shouldReceive('id')->andReturn('abew1234');
+        $this->jwtPersistence = Mockery::mock('eig\APIAuth\Abstracts\AbstractJWTPersistence', [$this->model])->makePartial();
         parent::setUp();
     }
 
@@ -91,6 +93,7 @@ class AbstractJWTPersistenceTest extends TestAbstract
      */
     public function testCreateNew ()
     {
+
         $this->jwtPersistence->create();
         $this->assertNull($this->jwtPersistence->token());
         $this->assertNull($this->jwtPersistence->expiration());
@@ -104,6 +107,7 @@ class AbstractJWTPersistenceTest extends TestAbstract
      */
     public function testCreateWithParams()
     {
+
         $this->jwtPersistence->shouldReceive('save');
         $params = [
             'token' => 'token',

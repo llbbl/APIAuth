@@ -27,6 +27,7 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
     public function __construct ($jwtModel)
     {
         $this->jwtModel = $jwtModel;
+
     }
 
 
@@ -211,10 +212,13 @@ abstract class AbstractJWTPersistence implements JWTPersistenceInterface
      */
     protected function setDefaultsOnNew()
     {
+
         $this->token = null;
         $this->issued = null;
         $this->notBefore = null;
         $this->expiration = null;
+        $this->jwtModel = $this->jwtModel->create(['token' => $this->token, 'issued' => $this->issued, 'notBefore' => $this->notBefore, 'expiration' => $this->expiration]);
+        $this->setId($this->jwtModel->id());
     }
 
     /**
