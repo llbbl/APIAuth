@@ -189,6 +189,44 @@ class JWT
     }
 
     /**
+     * renew
+     *
+     * @param $token
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
+    public static function renew($token)
+    {
+        $oldToken = self::parse($token);
+        $data = json_decode(
+            $oldToken->getClaim(self::$config['APIAuth']['JWT']['Fields']),
+            true
+        );
+        self::$persistence->get(['id' => $oldToken->getClaim('jti')]);
+        try {
+            $token = (new Builder())
+                ->setIssuer(self::$config['APIAuth']['JWT']['Issuer'])
+                ->setAudience(self::$config['APIAuth']['JWT']['Audience'])
+                ->setId(self::$persistence->id(), true)
+                ->setIssuedAt(time())
+                ->setNotBefore(time() + self::$config['APIAuth']['JWT']['NotBefore'])
+                ->setExpiration(time() + self::$config['APIAuth']['JWT']['Timeout'])
+                ->set(self::$config['APIAuth']['JWT']['Fields'], json_encode($data))
+                ->sign(self::$signer, self::$persistence->id())
+                ->getToken();
+
+            self::$persistence->token($token->getPayload());
+            self::$persistence->save();
+            return $token;
+        } catch (\Exception $e) {
+
+            throw new JWTException('Unable to renew the JWT token', 1, $e);
+        }
+
+    }
+
+    /**
      * persistenceCreate
      */
     protected static function persistenceCreate()
