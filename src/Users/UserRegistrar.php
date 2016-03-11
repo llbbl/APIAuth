@@ -97,8 +97,11 @@ class UserRegistrar
      * @param $password
      */
     public function authByPassword($username, $password) {
-        // hash verify the password
-        $this->persistence->find(['username' => $username, 'password' => $password]);
+        $user = $this->persistence->find(['username' => $username]);
+        if(password_verify($password, $user->password)) {
+            return true;
+        }
+        return false;
     }
 
     /**
