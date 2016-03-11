@@ -11,7 +11,7 @@ class AbstractUserPersistence implements UserPersistenceInterface
 
     public function __construct ($model)
     {
-        $userModel = $model;
+        $this->userModel = $model;
     }
 
     public function create ($username, $email, $password, $token)
