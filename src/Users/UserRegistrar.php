@@ -170,6 +170,7 @@ class UserRegistrar
      */
     protected function create($username, $email, $password, $token)
     {
+        $password = bcrypt($password);
         $this->persistence->create($username, $email, $password, $token);
     }
 
