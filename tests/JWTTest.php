@@ -151,7 +151,11 @@ class JWTTest extends TestAbstract
         $this->persistence->shouldReceive('save');
         $token = JWT::build($this->fields);
         $token = JWT::add($token, $newData);
+        $stringToken = (string)$token;
+        $parsedToken = JWT::parse($stringToken);
         $this->assertArraySubset($newData, json_decode($token->getClaim('data'), true));
         $this->assertArraySubset($this->fields, json_decode($token->getClaim('data'), true));
+        $this->assertArraySubset($newData, json_decode($parsedToken->getClaim('data'), true));
+        $this->assertArraySubset($this->fields, json_decode($parsedToken->getClaim('data'), true));
     }
 }
