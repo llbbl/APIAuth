@@ -116,8 +116,13 @@ class JWT
      */
     public static function parse($token)
     {
+        if(!is_string($token))  {
+            $token = (string)$token;
+        }
+        //dd($token);
+        //dd((new Parser)->parse($token));
         try {
-            return (new Parser())->parse((string)$token);
+            return (new Parser())->parse($token);
         } catch (\Exception $e) {
             throw new JWTException('Unable to parse token', 1, $e);
         }
