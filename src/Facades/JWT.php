@@ -193,6 +193,15 @@ class JWT
 
     }
 
+    /**
+     * remove
+     *
+     * @param $token
+     * @param $key
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public static function remove($token, $key)
     {
         $oldToken = self::parse($token);

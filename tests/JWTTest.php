@@ -159,6 +159,11 @@ class JWTTest extends TestAbstract
         $this->assertArraySubset($this->fields, json_decode($parsedToken->getClaim('data'), true));
     }
 
+
+    /**
+     * testRemove
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
     public function testRemove()
     {
         $this->persistence->shouldReceive('get');
