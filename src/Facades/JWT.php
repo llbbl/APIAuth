@@ -194,6 +194,46 @@ class JWT
     }
 
     /**
+     * remove
+     *
+     * @param $token
+     * @param $key
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
+    public static function remove($token, $key)
+    {
+        $oldToken = self::parse($token);
+        $data = json_decode(
+            $oldToken->getClaim(self::$config['APIAuth']['JWT']['Fields']),
+            true
+        );
+        self::$persistence->get(['id' => $oldToken->getClaim('jti')]);
+        unset($data[$key]);
+        try {
+            $token = (new Builder())
+                ->setIssuer(self::$config['APIAuth']['JWT']['Issuer'])
+                ->setAudience(self::$config['APIAuth']['JWT']['Audience'])
+                ->setId(self::$persistence->id(), true)
+                ->setIssuedAt(self::$persistence->issued())
+                ->setNotBefore(self::$persistence->notBefore())
+                ->setExpiration(self::$persistence->expiration())
+                ->set(self::$config['APIAuth']['JWT']['Fields'], json_encode($data))
+                ->sign(self::$signer, self::$persistence->id())
+                ->getToken();
+
+            self::$persistence->token($token->getPayload());
+            self::$persistence->save();
+            return $token;
+        } catch (\Exception $e) {
+
+            throw new JWTException('Unable to add to the JWT token', 1, $e);
+        }
+
+    }
+
+    /**
      * renew
      *
      * @param $token

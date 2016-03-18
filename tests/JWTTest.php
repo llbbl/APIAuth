@@ -158,4 +158,27 @@ class JWTTest extends TestAbstract
         $this->assertArraySubset($newData, json_decode($parsedToken->getClaim('data'), true));
         $this->assertArraySubset($this->fields, json_decode($parsedToken->getClaim('data'), true));
     }
+
+
+    /**
+     * testRemove
+     * @throws \eig\APIAuth\Exceptions\JWTException
+     */
+    public function testRemove()
+    {
+        $this->persistence->shouldReceive('get');
+        $this->persistence->shouldReceive('find')->andReturn('123456543');
+        $this->persistence->shouldReceive('id')->andReturn('123456543');
+        $this->persistence->shouldReceive('issued');
+        $this->persistence->shouldReceive('expiration');
+        $this->persistence->shouldReceive('notBefore');
+        $this->persistence->shouldReceive('create');
+        $this->persistence->shouldReceive('token');
+        $this->persistence->shouldReceive('save');
+        $token = JWT::build($this->fields);
+        $token = JWT::remove($token, 'token');
+        $stringToken = (string)$token;
+        $parsedToken = JWT::parse($stringToken);
+        $this->assertArrayNotHasKey('token', json_decode($parsedToken->getClaim('data'), true));
+    }
 }
