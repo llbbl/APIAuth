@@ -97,7 +97,7 @@ class JWT
             self::$persistence->issued($token->getClaim('iat'));
             self::$persistence->expiration($token->getClaim('exp'));
             self::$persistence->notBefore($token->getClaim('nbf'));
-            self::$persistence->token($token->getPayload());
+            self::$persistence->token((string)$token);
             self::$persistence->save();
             return $token;
         } catch (\Exception $e) {
@@ -183,7 +183,7 @@ class JWT
                 ->sign(self::$signer, self::$persistence->id())
                 ->getToken();
 
-            self::$persistence->token($token->getPayload());
+            self::$persistence->token((string)$token);
             self::$persistence->save();
             return $token;
         } catch (\Exception $e) {
@@ -223,7 +223,7 @@ class JWT
                 ->sign(self::$signer, self::$persistence->id())
                 ->getToken();
 
-            self::$persistence->token($token->getPayload());
+            self::$persistence->token((string)$token);
             self::$persistence->save();
             return $token;
         } catch (\Exception $e) {
@@ -261,7 +261,7 @@ class JWT
                 ->sign(self::$signer, self::$persistence->id())
                 ->getToken();
 
-            self::$persistence->token($token->getPayload());
+            self::$persistence->token((string)$token);
             self::$persistence->save();
             return $token;
         } catch (\Exception $e) {
