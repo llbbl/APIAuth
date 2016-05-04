@@ -215,7 +215,7 @@ class UserRegistrar
             $error = "Password cannot be empty ";
         }
 
-        if( strlen($password) < 8 ) { //add config vlaue for password len
+        if( strlen($password) < 6 ) { //add config value for password len
             $error .= "Password too short! ";
         }
 
@@ -224,7 +224,7 @@ class UserRegistrar
         }
 
 
-        if( !preg_match("#[a-z]+#", $password) ) {
+       /* if( !preg_match("#[a-z]+#", $password) ) {
             $error .= "Password must include at least one letter! ";
         }
 
@@ -237,7 +237,7 @@ class UserRegistrar
 
         if( !preg_match("#\W+#", $password) ) {
             $error .= "Password must include at least one symbol!";
-        }
+        }*/
 
         if(!empty($error)){
             throw new UserException("Password validation failure:" . $error ." ", 1);
